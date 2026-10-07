@@ -1,10 +1,14 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hanzi Stroke Book</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
 :root{
-  /* Layout: masthead with progress, sticky lesson switcher, two-column word list on practice-grid tiles; the stroke sheet opens as a centred panel over the list. */
   --bg:#ECF0ED;
   --surface:#FAFBF9;
   --ink:#15231F;
@@ -51,7 +55,7 @@ h1{margin:0;font:700 clamp(2rem,6vw,3rem)/1.05 var(--font-hanzi);text-wrap:balan
 
 /* Toolbar */
 .toolbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;flex-wrap:wrap;gap:.6rem 1.25rem;align-items:center;justify-content:space-between;background:var(--bg);padding-block:.7rem;border-bottom:1px solid var(--line)}
-.seg{display:flex;border:1px solid var(--grid);border-radius:8px;overflow:hidden;background:var(--surface);max-width:100%}
+.seg{display:flex;border:1px solid var(--grid);border-radius:8px;overflow:hidden;background:var(--surface);max-width:100%;overflow-x:auto}
 .seg button{flex:1 1 auto;border:0;background:transparent;padding:.55rem .95rem;min-height:2.75rem;font-weight:600;border-right:1px solid var(--line);white-space:nowrap}
 .seg button:last-child{border-right:0}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
@@ -71,7 +75,7 @@ h2{margin:0;font:700 1.6rem/1.2 var(--font-hanzi)}
 .meta{color:var(--muted);font-size:.95rem;font-variant-numeric:tabular-nums}
 .words{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,23rem),1fr));column-gap:3rem}
 .word{display:flex;align-items:center;gap:1rem;min-width:0;padding-block:.8rem;border-bottom:1px solid var(--line)}
-.tiles{display:flex;gap:.35rem;flex:none}
+.tiles{display:flex;gap:.35rem;flex:none;flex-wrap:wrap}
 .tile{position:relative;width:3.25rem;height:3.25rem;padding:0;display:grid;place-items:center;border:1.5px solid var(--grid);border-radius:4px;background:var(--surface);color:var(--ink);font:500 2rem/1 var(--font-hanzi)}
 .tile::before,.tile::after{content:"";position:absolute;pointer-events:none}
 .tile::before{left:0;right:0;top:50%;border-top:1px dashed var(--line)}
@@ -91,6 +95,22 @@ h2{margin:0;font:700 1.6rem/1.2 var(--font-hanzi)}
 .mean{color:var(--muted);font-size:.95rem}
 .empty{margin:1rem 0 0;color:var(--muted)}
 .hide-answers .word:not(.rev) .ans{filter:blur(7px);user-select:none;cursor:pointer}
+
+/* Sentence Practice Section */
+.scramble-sec{margin-top:2rem;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1.5rem}
+.scramble-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;border-bottom:1px solid var(--line);padding-bottom:.75rem;flex-wrap:wrap;gap:.5rem}
+.scramble-card{display:flex;flex-direction:column;gap:1.25rem}
+.scramble-target{color:var(--muted);font-size:1.1rem;font-weight:600}
+.scramble-target .m{color:var(--ink);display:block;font-size:1.25rem;margin-top:.25rem}
+.slots-area,.pool-area{display:flex;flex-wrap:wrap;gap:.5rem;min-height:3.2rem;padding:.5rem;background:var(--bg);border:1.5px dashed var(--grid);border-radius:8px;align-items:center}
+.slots-area{border-style:solid;border-color:var(--accent);background:var(--surface)}
+.word-chip{padding:.4rem .8rem;border:1.5px solid var(--grid);border-radius:6px;background:var(--surface);font-family:var(--font-hanzi);font-size:1.3rem;font-weight:500;user-select:none;transition:transform .1s, background .2s}
+.word-chip:hover{background:var(--accent-soft);border-color:var(--accent)}
+.word-chip:active{transform:scale(.95)}
+.scramble-controls{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+.scramble-msg{font-weight:600;font-size:1.05rem;min-height:1.5rem}
+.scramble-msg.correct{color:var(--accent)}
+.scramble-msg.incorrect{color:var(--pen)}
 
 /* Stroke panel */
 .overlay{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:16px;background:var(--overlay)}
@@ -147,6 +167,8 @@ h3{margin:0;font-size:1rem;font-weight:700;text-transform:uppercase;letter-spaci
   .tile:active{transform:none}
 }
 </style>
+</head>
+<body>
 
 <div class="page">
   <header class="masthead">
@@ -269,16 +291,80 @@ var LESSONS=[
   {h:'杂志',p:'zázhì',m:'magazine'},
   {h:'音乐',p:'yīnyuè',m:'music'},
   {h:'朋友',p:'péngyou',m:'friend'}
+ ]},
+ {id:4,words:[
+  {h:'中国',p:'Zhōngguó',m:'China'},
+  {h:'美国',p:'Měiguó',m:'America'},
+  {h:'加拿大',p:'Jiānádà',m:'Canada'}
+ ]},
+ {id:5,words:[
+  {h:'白俄罗斯',p:'Bái’éluósī',m:'Belarus'},
+  {h:'俄罗斯',p:'Éluósī',m:'Russia'}
  ]}
 ];
+
 var PY={
  '你':'nǐ','好':'hǎo','老':'lǎo','师':'shī','吗':'ma','不':'bù','我':'wǒ','学':'xué','生':'shēng','她':'tā',
  '谢':'xiè','客':'kè','气':'qì','您':'nín','留':'liú','叫':'jiào','什':'shén','么':'me','名':'míng','字':'zì',
  '同':'tóng','们':'men','来':'lái','介':'jiè','绍':'shào','一':'yī','下':'xià','儿':'ér','姓':'xìng','的':'de',
  '哪':'nǎ','国':'guó','人':'rén','他':'tā','认':'rèn','识':'shí','很':'hěn','高':'gāo','兴':'xìng','也':'yě','呢':'ne',
  '那':'nà','谁':'shéi / shuí','书':'shū','屋':'wū','汉':'hàn','语':'yǔ','课':'kè','本':'běn','词':'cí','典':'diǎn',
- '就':'jiù','是':'shì','日':'rì','这':'zhè','杂':'zá','志':'zhì','音':'yīn','乐':'yuè','朋':'péng','友':'yǒu'
+ '就':'jiù','是':'shì','日':'rì','这':'zhè','杂':'zá','志':'zhì','音':'yīn','乐':'yuè','朋':'péng','友':'yǒu',
+ '中':'zhōng','美':'měi','加':'jiā','拿':'ná','大':'dà','白':'bái','俄':'é','罗':'luó','斯':'sī'
 };
+
+var SENTENCES = [
+  {tokens: ['你好', '！'], pinyin: 'nǐ hǎo !', meaning: 'Hello!'},
+  {tokens: ['老师', '好', '！'], pinyin: 'lǎoshī hǎo !', meaning: 'Hello, teacher!'},
+  {tokens: ['你', '好', '吗', '？'], pinyin: 'nǐ hǎo ma ?', meaning: 'How are you?'},
+  {tokens: ['我', '很', '好', '。'], pinyin: 'wǒ hěn hǎo .', meaning: 'I am very well.'},
+  {tokens: ['我', '不', '是', '老师', '。'], pinyin: 'wǒ bú shì lǎoshī .', meaning: 'I am not a teacher.'},
+  {tokens: ['我', '是', '学生', '。'], pinyin: 'wǒ shì xuésheng .', meaning: 'I am a student.'},
+  {tokens: ['她', '是', '我', '的', '老师', '。'], pinyin: 'tā shì wǒ de lǎoshī .', meaning: 'She is my teacher.'},
+  {tokens: ['谢谢', '你', '！'], pinyin: 'xièxie nǐ !', meaning: 'Thank you!'},
+  {tokens: ['不客气', '。'], pinyin: 'bú kèqi .', meaning: 'You are welcome.'},
+  {tokens: ['您', '好', '！'], pinyin: 'nín hǎo !', meaning: 'Hello! (polite)'},
+  {tokens: ['他', '是', '留学生', '。'], pinyin: 'tā shì liúxuéshēng .', meaning: 'He is an international student.'},
+  {tokens: ['你', '叫', '什么', '名字', '？'], pinyin: 'nǐ jiào shénme míngzi ?', meaning: 'What is your name?'},
+  {tokens: ['我', '叫', '大卫', '。'], pinyin: 'wǒ jiào Dàwèi .', meaning: 'My name is David.'},
+  {tokens: ['同学', '们', '好', '！'], pinyin: 'tóngxuémen hǎo !', meaning: 'Hello, classmates!'},
+  {tokens: ['我', '来', '介绍', '一下儿', '。'], pinyin: 'wǒ lái jièshào yíxiàr .', meaning: 'Let me introduce a bit.'},
+  {tokens: ['你', '姓', '什么', '？'], pinyin: 'nǐ xìng shénme ?', meaning: 'What is your surname?'},
+  {tokens: ['我', '姓', '王', '。'], pinyin: 'wǒ xìng Wáng .', meaning: 'My surname is Wang.'},
+  {tokens: ['你', '是', '哪', '国', '人', '？'], pinyin: 'nǐ shì nǎ guó rén ?', meaning: 'Which country are you from?'},
+  {tokens: ['我', '是', '中国', '人', '。'], pinyin: 'wǒ shì Zhōngguó rén .', meaning: 'I am Chinese.'},
+  {tokens: ['她', '是', '美国', '人', '。'], pinyin: 'tā shì Měiguó rén .', meaning: 'She is American.'},
+  {tokens: ['他', '是', '加拿大', '人', '。'], pinyin: 'tā shì Jiānádà rén .', meaning: 'He is Canadian.'},
+  {tokens: ['我', '的', '同屋', '是', '俄罗斯', '人', '。'], pinyin: 'wǒ de tóngwū shì Éluósī rén .', meaning: 'My roommate is Russian.'},
+  {tokens: ['她', '是', '白俄罗斯', '人', '。'], pinyin: 'tā shì Bái’éluósī rén .', meaning: 'She is Belarusian.'},
+  {tokens: ['认识', '你', '很', '高兴', '！'], pinyin: 'rènshi nǐ hěn gāoxìng !', meaning: 'Nice to meet you!'},
+  {tokens: ['认识', '您', '我', '也', '很', '高兴', '。'], pinyin: 'rènshi nín wǒ yě hěn gāoxìng .', meaning: 'Nice to meet you too.'},
+  {tokens: ['你', '呢', '？'], pinyin: 'nǐ ne ?', meaning: 'How about you?'},
+  {tokens: ['那', '是', '谁', '？'], pinyin: 'nà shì shéi ?', meaning: 'Who is that?'},
+  {tokens: ['那', '是', '我', '的', '朋友', '。'], pinyin: 'nà shì wǒ de péngyou .', meaning: 'That is my friend.'},
+  {tokens: ['这', '是', '什么', '书', '？'], pinyin: 'zhè shì shénme shū ?', meaning: 'What book is this?'},
+  {tokens: ['这', '是', '汉语', '课本', '。'], pinyin: 'zhè shì Hànyǔ kèběn .', meaning: 'This is a Chinese textbook.'},
+  {tokens: ['这', '是', '日语', '词典', '。'], pinyin: 'zhè shì Rìyǔ cídiǎn .', meaning: 'This is a Japanese dictionary.'},
+  {tokens: ['他', '就是', '我', '的', '同屋', '。'], pinyin: 'tā jiùshì wǒ de tóngwū .', meaning: 'He is exactly my roommate.'},
+  {tokens: ['那', '是', '谁', '的', '杂志', '？'], pinyin: 'nà shì shéi de zázhì ?', meaning: 'Whose magazine is that?'},
+  {tokens: ['这', '是', '我', '的', '音乐', '杂志', '。'], pinyin: 'zhè shì wǒ de yīnyuè zázhì .', meaning: 'This is my music magazine.'},
+  {tokens: ['我', '不', '认识', '他', '。'], pinyin: 'wǒ bù rènshi tā .', meaning: 'I do not know him.'},
+  {tokens: ['你', '是', '留学生', '吗', '？'], pinyin: 'nǐ shì liúxuéshēng ma ?', meaning: 'Are you an international student?'},
+  {tokens: ['我', '也是', '学生', '。'], pinyin: 'wǒ yě shì xuésheng .', meaning: 'I am also a student.'},
+  {tokens: ['老师', '不', '是', '美国', '人', '。'], pinyin: 'lǎoshī bú shì Měiguó rén .', meaning: 'The teacher is not American.'},
+  {tokens: ['他', '是', '中国', '老师', '。'], pinyin: 'tā shì Zhōngguó lǎoshī .', meaning: 'He is a Chinese teacher.'},
+  {tokens: ['这', '是', '你', '的', '书', '吗', '？'], pinyin: 'zhè shì nǐ de shū ma ?', meaning: 'Is this your book?'},
+  {tokens: ['那', '不', '是', '我', '的', '词典', '。'], pinyin: 'nà bú shì wǒ de cídiǎn .', meaning: 'That is not my dictionary.'},
+  {tokens: ['同学', '们', '来', '介绍', '一下儿', '。'], pinyin: 'tóngxuémen lái jièshào yíxiàr .', meaning: 'Classmates, please introduce yourselves.'},
+  {tokens: ['他', '也', '叫', '大卫', '。'], pinyin: 'tā yě jiào Dàwèi .', meaning: 'He is also named David.'},
+  {tokens: ['我', '很高兴', '认识', '你', '的', '朋友', '。'], pinyin: 'wǒ hěn gāoxìng rènshi nǐ de péngyou .', meaning: 'I am glad to meet your friend.'},
+  {tokens: ['俄罗斯', '很大', '。'], pinyin: 'Éluósī hěn dà .', meaning: 'Russia is very big.'},
+  {tokens: ['你', '的', '同屋', '是', '哪', '国', '人', '？'], pinyin: 'nǐ de tóngwū shì nǎ guó rén ?', meaning: 'Which country is your roommate from?'},
+  {tokens: ['白俄罗斯', '人', '很', '好', '。'], pinyin: 'Bái’éluósī rén hěn hǎo .', meaning: 'Belarusian people are very nice.'},
+  {tokens: ['加拿大', '的', '风景', '很', '美', '。'], pinyin: 'Jiānádà de fēngjǐng hěn měi .', meaning: 'Canada\'s scenery is beautiful.'},
+  {tokens: ['那', '是', '汉语', '杂志', '吗', '？'], pinyin: 'nà shì Hànyǔ zázhì ma ?', meaning: 'Is that a Chinese magazine?'},
+  {tokens: ['这', '就是', '我', '的', '汉语', '老师', '。'], pinyin: 'zhè jiùshì wǒ de Hànyǔ lǎoshī .', meaning: 'This is exactly my Chinese teacher.'}
+];
 /*END DATA*/
 
 var $=function(id){return document.getElementById(id);};
@@ -294,18 +380,18 @@ LESSONS.forEach(function(L){L.words.forEach(function(w){Array.from(w.h).forEach(
   seq[seqIndex[c]].words.push(w);
 });});});
 
-/* Saved state (per browser, optional) */
+/* Saved state */
 var store={
   get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
   set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 };
 var known=new Set((store.get('hzbook.known',[])||[]).filter(function(c){return c in seqIndex;}));
 var ui=Object.assign({tab:'1',hideLearned:false,hideAnswers:false},store.get('hzbook.ui',{})||{});
-if(['1','2','3','all'].indexOf(ui.tab)<0)ui.tab='1';
+if(['1','2','3','4','5','all','sentences'].indexOf(ui.tab)<0)ui.tab='1';
 function saveUi(){store.set('hzbook.ui',ui);}
 function saveKnown(){store.set('hzbook.known',Array.from(known));}
 
-/* Stroke data, loaded from the hanzi-writer-data package as an ES module */
+/* Stroke data */
 var DATA_BASE='https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1/';
 var cache=new Map();
 function loadChar(ch){
@@ -320,16 +406,6 @@ function loadChar(ch){
   }
   return cache.get(ch);
 }
-function prefetch(){
-  var q=seq.map(function(e){return e.c;}),active=0;
-  function next(){
-    while(active<4&&q.length){
-      var c=q.shift();active++;
-      loadChar(c).catch(function(){}).then(function(){active--;next();});
-    }
-  }
-  setTimeout(next,500);
-}
 
 /* ---------- List ---------- */
 function allKnown(w){return Array.from(w.h).every(function(c){return known.has(c);});}
@@ -337,14 +413,14 @@ function allKnown(w){return Array.from(w.h).every(function(c){return known.has(c
 function wordRow(w){
   var li=document.createElement('li');li.className='word';
   var tiles=Array.from(w.h).map(function(c){
-    return '<button type="button" class="tile" data-char="'+c+'" data-known="'+known.has(c)+'" aria-label="Stroke order for '+c+', '+PY[c]+'"><span>'+c+'</span>'+CHECK+'</button>';
+    return '<button type="button" class="tile" data-char="'+c+'" data-known="'+known.has(c)+'" aria-label="Stroke order for '+c+', '+(PY[c]||'')+ '"><span>'+c+'</span>'+CHECK+'</button>';
   }).join('');
   li.innerHTML='<div class="tiles">'+tiles+'</div><div class="ans"><div class="py">'+w.p+'</div><div class="mean">'+w.m+'</div></div>'+
     '<button type="button" class="say" data-say="'+w.h+'" aria-label="Hear '+w.h+'">'+SPK+'</button>';
   return li;
 }
 
-/* ---------- Voice (the device’s own Chinese text-to-speech voice) ---------- */
+/* ---------- Voice ---------- */
 var noteTimer;
 function note(t){
   var n=$('note');n.textContent=t;n.hidden=false;
@@ -366,8 +442,126 @@ function speak(text){
 }
 if(window.speechSynthesis){window.speechSynthesis.getVoices();}
 
+/* ---------- Scramble Game State ---------- */
+var curScrambleIdx = 0;
+var scrambleSlots = [];
+var scramblePool = [];
+
+function shuffle(arr){
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var x = a[i]; a[i] = a[j]; a[j] = x;
+  }
+  return a;
+}
+
+function renderScrambleSec(){
+  var root = $('list');
+  var s = SENTENCES[curScrambleIdx];
+  
+  var sec = document.createElement('section');
+  sec.className = 'scramble-sec';
+  
+  var html = '<div class="scramble-header">' +
+      '<h2>Sentence Practice (' + (curScrambleIdx + 1) + ' / ' + SENTENCES.length + ')</h2>' +
+      '<div><button type="button" class="btn" id="scramblePrev">Previous</button> ' +
+      '<button type="button" class="btn" id="scrambleNext">Next</button></div>' +
+    '</div>' +
+    '<div class="scramble-card">' +
+      '<div class="scramble-target">' +
+        '<span>Translate & Unscramble:</span>' +
+        '<span class="m">' + s.meaning + '</span>' +
+      '</div>' +
+      '<div><strong>Your Answer:</strong><div class="slots-area" id="scrambleSlots"></div></div>' +
+      '<div><strong>Word Bank:</strong><div class="pool-area" id="scramblePool"></div></div>' +
+      '<div class="scramble-controls">' +
+        '<button type="button" class="btn primary" id="scrambleCheck">Check Order</button>' +
+        '<button type="button" class="btn" id="scrambleReset">Reset</button>' +
+        '<button type="button" class="say" id="scrambleSpeak" aria-label="Hear sentence">' + SPK + '</button>' +
+        '<div class="scramble-msg" id="scrambleMsg"></div>' +
+      '</div>' +
+    '</div>';
+    
+  sec.innerHTML = html;
+  root.appendChild(sec);
+  
+  // Init chips
+  scrambleSlots = [];
+  scramblePool = shuffle(s.tokens.map(function(tok, idx){ return {id: idx, text: tok}; }));
+  
+  updateScrambleUI();
+  
+  $('scramblePrev').onclick = function(){ if(curScrambleIdx > 0){ curScrambleIdx--; renderList(); }};
+  $('scrambleNext').onclick = function(){ if(curScrambleIdx < SENTENCES.length - 1){ curScrambleIdx++; renderList(); }};
+  $('scrambleCheck').onclick = checkScramble;
+  $('scrambleReset').onclick = function(){
+    scrambleSlots = [];
+    scramblePool = shuffle(s.tokens.map(function(tok, idx){ return {id: idx, text: tok}; }));
+    $('scrambleMsg').textContent = '';
+    $('scrambleMsg').className = 'scramble-msg';
+    updateScrambleUI();
+  };
+  $('scrambleSpeak').onclick = function(){ speak(s.tokens.join('')); };
+}
+
+function updateScrambleUI(){
+  var slotsEl = $('scrambleSlots');
+  var poolEl = $('scramblePool');
+  if(!slotsEl || !poolEl) return;
+  
+  slotsEl.innerHTML = '';
+  poolEl.innerHTML = '';
+  
+  scrambleSlots.forEach(function(item, idx){
+    var btn = document.createElement('button');
+    btn.className = 'word-chip';
+    btn.textContent = item.text;
+    btn.onclick = function(){
+      scrambleSlots.splice(idx, 1);
+      scramblePool.push(item);
+      updateScrambleUI();
+    };
+    slotsEl.appendChild(btn);
+  });
+  
+  scramblePool.forEach(function(item, idx){
+    var btn = document.createElement('button');
+    btn.className = 'word-chip';
+    btn.textContent = item.text;
+    btn.onclick = function(){
+      scramblePool.splice(idx, 1);
+      scrambleSlots.push(item);
+      updateScrambleUI();
+    };
+    poolEl.appendChild(btn);
+  });
+}
+
+function checkScramble(){
+  var s = SENTENCES[curScrambleIdx];
+  var userAns = scrambleSlots.map(function(item){ return item.text; }).join('');
+  var targetAns = s.tokens.join('');
+  var msgEl = $('scrambleMsg');
+  
+  if(userAns === targetAns){
+    msgEl.textContent = 'Correct! Great job! (' + s.pinyin + ')';
+    msgEl.className = 'scramble-msg correct';
+    speak(targetAns);
+  } else {
+    msgEl.textContent = 'Not quite right. Try again!';
+    msgEl.className = 'scramble-msg incorrect';
+  }
+}
+
 function renderList(){
   var root=$('list');root.textContent='';
+  
+  if(ui.tab === 'sentences'){
+    renderScrambleSec();
+    return;
+  }
+  
   LESSONS.forEach(function(L){
     if(ui.tab!=='all'&&String(L.id)!==ui.tab)return;
     var words=L.words.filter(function(w){return !(ui.hideLearned&&allKnown(w));});
@@ -402,7 +596,9 @@ function applyAnswerMode(){
 function renderTabs(){
   var tabs=$('tabs');tabs.textContent='';
   var items=LESSONS.map(function(L){return {k:String(L.id),label:'Lesson '+L.id,n:L.words.length};});
-  items.push({k:'all',label:'All',n:LESSONS.reduce(function(s,L){return s+L.words.length;},0)});
+  items.push({k:'all',label:'All Words',n:LESSONS.reduce(function(s,L){return s+L.words.length;},0)});
+  items.push({k:'sentences',label:'Sentence Practice',n:SENTENCES.length});
+  
   items.forEach(function(it){
     var b=document.createElement('button');b.type='button';b.dataset.tab=it.k;
     b.setAttribute('aria-pressed',String(ui.tab===it.k));
@@ -514,7 +710,7 @@ function fillPanel(mode){
   var e=seq[cur],token=++fillToken;
   curData=null;
   $('pCount').textContent='Lesson '+e.lesson+' · '+(cur+1)+' of '+seq.length;
-  $('pPinyin').textContent=PY[e.c];
+  $('pPinyin').textContent=PY[e.c]||'';
   $('pWords').innerHTML=e.words.map(function(w){
     return '<li><span><span class="hz">'+w.h+'</span> '+w.p+' · '+w.m+'</span><button type="button" class="say" data-say="'+w.h+'" aria-label="Hear '+w.h+'">'+SPK+'</button></li>';
   }).join('');
@@ -619,18 +815,13 @@ document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){e.preventDefault();closePanel();return;}
   if(e.key==='ArrowLeft'){go(-1);return;}
   if(e.key==='ArrowRight'){go(1);return;}
-  if(e.key==='Tab'){
-    var f=Array.from($('panel').querySelectorAll('button:not(:disabled)'));
-    if(!f.length)return;
-    var first=f[0],last=f[f.length-1];
-    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
-    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
-  }
 });
 
-/* ---------- Start ---------- */
-$('tHideLearned').setAttribute('aria-pressed',String(ui.hideLearned));
-$('tHideAnswers').setAttribute('aria-pressed',String(ui.hideAnswers));
-renderTabs();renderList();updateProgress();prefetch();
+/* Init */
+renderTabs();
+renderList();
+updateProgress();
 })();
 </script>
+</body>
+</html>
