@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hanzi Stroke Book</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
 :root{
+  /* Layout: masthead with progress, sticky lesson switcher, two-column word list on practice-grid tiles; the stroke sheet opens as a centred panel over the list. */
   --bg:#ECF0ED;
   --surface:#FAFBF9;
   --ink:#15231F;
@@ -37,143 +33,120 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font:400 1rem/1.5 var(--font-ui);margin:0;padding:0}
-button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+body{background:var(--bg);color:var(--ink);font:400 1rem/1.5 var(--font-ui)}
+button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.page{max-width:68rem;margin:0 auto;padding-inline:max(12px,3vw);padding-block:1rem 3rem}
+.page{max-width:68rem;margin:0 auto;padding-inline:max(16px,3vw);padding-block:1.25rem 4rem}
 
 /* Masthead */
-.masthead{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:flex-end;justify-content:space-between;padding-block:.5rem 1rem}
+.masthead{display:flex;flex-wrap:wrap;gap:1.25rem 2.5rem;align-items:flex-end;justify-content:space-between;padding-block:1rem 1.5rem}
 .masthead>*{min-width:0}
-h1{margin:0;font:700 clamp(1.75rem,5vw,3rem)/1.1 var(--font-hanzi);text-wrap:balance}
-.lede{margin:.5rem 0 0;color:var(--muted);max-width:34rem;font-size:0.95rem}
-.progress{flex:1 1 14rem;min-width:min(100%,12rem)}
-.progress-text{font-size:.9rem;color:var(--muted)}
-.progress-text strong{color:var(--ink);font-size:1.15rem;font-variant-numeric:tabular-nums}
-.bar{height:.5rem;margin-top:.4rem;background:var(--line);border-radius:99px;overflow:hidden}
+h1{margin:0;font:700 clamp(2rem,6vw,3rem)/1.05 var(--font-hanzi);text-wrap:balance}
+.lede{margin:.65rem 0 0;color:var(--muted);max-width:34rem}
+.progress{flex:0 1 18rem;min-width:min(100%,14rem)}
+.progress-text{font-size:.95rem;color:var(--muted)}
+.progress-text strong{color:var(--ink);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.bar{height:.5rem;margin-top:.5rem;background:var(--line);border-radius:99px;overflow:hidden}
 .bar span{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
 
 /* Toolbar */
-.toolbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;justify-content:space-between;background:var(--bg);padding-block:.6rem;border-bottom:1px solid var(--line)}
-.seg{display:flex;border:1px solid var(--grid);border-radius:8px;background:var(--surface);max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.seg button{flex:1 0 auto;border:0;background:transparent;padding:.5rem .8rem;min-height:2.6rem;font-weight:600;border-right:1px solid var(--line);white-space:nowrap;font-size:0.9rem}
+.toolbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;flex-wrap:wrap;gap:.6rem 1.25rem;align-items:center;justify-content:space-between;background:var(--bg);padding-block:.7rem;border-bottom:1px solid var(--line)}
+.seg{display:flex;border:1px solid var(--grid);border-radius:8px;overflow:hidden;background:var(--surface);max-width:100%}
+.seg button{flex:1 1 auto;border:0;background:transparent;padding:.55rem .95rem;min-height:2.75rem;font-weight:600;border-right:1px solid var(--line);white-space:nowrap}
 .seg button:last-child{border-right:0}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
-.seg .ct{margin-left:.25rem;font-weight:400;opacity:.8;font-variant-numeric:tabular-nums}
-.toggles{display:flex;flex-wrap:wrap;gap:.4rem;width:100%}
-.chip{display:inline-flex;align-items:center;gap:.45rem;min-height:2.5rem;padding:0 .75rem;border:1px solid var(--grid);border-radius:8px;background:var(--surface);font-size:0.85rem;flex:1 1 auto;justify-content:center}
+.seg .ct{margin-left:.35rem;font-weight:400;opacity:.8;font-variant-numeric:tabular-nums}
+.toggles{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{display:inline-flex;align-items:center;gap:.45rem;min-height:2.75rem;padding:0 .9rem;border:1px solid var(--grid);border-radius:8px;background:var(--surface)}
 .chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
-.chip .box{width:1rem;height:1rem;border:1.5px solid var(--muted);border-radius:3px;display:grid;place-items:center;color:var(--accent-ink)}
+.chip .box{width:1.05rem;height:1.05rem;border:1.5px solid var(--muted);border-radius:3px;display:grid;place-items:center;color:var(--accent-ink)}
 .chip[aria-pressed="true"] .box{background:var(--accent);border-color:var(--accent)}
-.chip .box svg{width:.75rem;height:.75rem;opacity:0}
+.chip .box svg{width:.8rem;height:.8rem;opacity:0}
 .chip[aria-pressed="true"] .box svg{opacity:1}
 
 /* Word list */
-.lesson{margin-top:1.5rem}
-.lesson-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.25rem .75rem;border-bottom:2px solid var(--ink);padding-bottom:.3rem}
-h2{margin:0;font:700 1.4rem/1.2 var(--font-hanzi)}
-.meta{color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
-.words{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,20rem),1fr));column-gap:2rem}
-.word{display:flex;align-items:center;gap:.75rem;min-width:0;padding-block:.75rem;border-bottom:1px solid var(--line)}
-.tiles{display:flex;gap:.3rem;flex:none;flex-wrap:wrap;max-width:60%}
-.tile{position:relative;width:2.85rem;height:2.85rem;padding:0;display:grid;place-items:center;border:1.5px solid var(--grid);border-radius:4px;background:var(--surface);color:var(--ink);font:500 1.65rem/1 var(--font-hanzi)}
+.lesson{margin-top:2rem}
+.lesson-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.25rem 1rem;border-bottom:2px solid var(--ink);padding-bottom:.4rem}
+h2{margin:0;font:700 1.6rem/1.2 var(--font-hanzi)}
+.meta{color:var(--muted);font-size:.95rem;font-variant-numeric:tabular-nums}
+.words{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,23rem),1fr));column-gap:3rem}
+.word{display:flex;align-items:center;gap:1rem;min-width:0;padding-block:.8rem;border-bottom:1px solid var(--line)}
+.tiles{display:flex;gap:.35rem;flex:none}
+.tile{position:relative;width:3.25rem;height:3.25rem;padding:0;display:grid;place-items:center;border:1.5px solid var(--grid);border-radius:4px;background:var(--surface);color:var(--ink);font:500 2rem/1 var(--font-hanzi)}
 .tile::before,.tile::after{content:"";position:absolute;pointer-events:none}
 .tile::before{left:0;right:0;top:50%;border-top:1px dashed var(--line)}
 .tile::after{top:0;bottom:0;left:50%;border-left:1px dashed var(--line)}
 .tile>span{position:relative;z-index:1}
-.tile .ok{position:absolute;z-index:1;right:2px;bottom:2px;width:.8rem;height:.8rem;color:var(--accent);display:none}
+.tile .ok{position:absolute;z-index:1;right:2px;bottom:2px;width:.9rem;height:.9rem;color:var(--accent);display:none}
 .tile[data-known="true"]{border-color:var(--accent)}
 .tile[data-known="true"] .ok{display:block}
 .tile:hover{background:var(--accent-soft);border-color:var(--accent)}
 .tile:active{transform:scale(.96)}
 .ans{min-width:0;flex:1}
-.say{flex:none;width:2.5rem;height:2.5rem;display:grid;place-items:center;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--accent)}
+.say{flex:none;width:2.75rem;height:2.75rem;display:grid;place-items:center;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--accent)}
 .say:hover{background:var(--accent-soft);border-color:var(--accent)}
-.say svg{width:1.2rem;height:1.2rem}
-.note{position:fixed;left:50%;bottom:calc(1rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:30;width:max-content;max-width:min(90vw,26rem);background:var(--ink);color:var(--bg);padding:.6rem 1rem;border-radius:8px;font-size:.9rem;text-align:center}
-.py{font-weight:600;font-size:1.05rem;line-height:1.25;overflow-wrap:anywhere}
-.mean{color:var(--muted);font-size:.88rem}
+.say svg{width:1.3rem;height:1.3rem}
+.note{position:fixed;left:50%;bottom:calc(1rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:30;width:max-content;max-width:min(90vw,26rem);background:var(--ink);color:var(--bg);padding:.6rem 1rem;border-radius:8px;font-size:.95rem;text-align:center}
+.py{font-weight:600;font-size:1.15rem;line-height:1.25;overflow-wrap:anywhere}
+.mean{color:var(--muted);font-size:.95rem}
 .empty{margin:1rem 0 0;color:var(--muted)}
 .hide-answers .word:not(.rev) .ans{filter:blur(7px);user-select:none;cursor:pointer}
 
-/* Sentence Practice Section */
-.scramble-sec{margin-top:1.5rem;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1rem}
-.scramble-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid var(--line);padding-bottom:.5rem;flex-wrap:wrap;gap:.5rem}
-.scramble-card{display:flex;flex-direction:column;gap:1rem}
-.scramble-target{color:var(--muted);font-size:0.95rem;font-weight:600}
-.scramble-target .m{color:var(--ink);display:block;font-size:1.15rem;margin-top:.2rem}
-.slots-area,.pool-area{display:flex;flex-wrap:wrap;gap:.4rem;min-height:3rem;padding:.4rem;background:var(--bg);border:1.5px dashed var(--grid);border-radius:8px;align-items:center}
-.slots-area{border-style:solid;border-color:var(--accent);background:var(--surface)}
-.word-chip{padding:.4rem .7rem;border:1.5px solid var(--grid);border-radius:6px;background:var(--surface);font-family:var(--font-hanzi);font-size:1.15rem;font-weight:500;user-select:none;transition:transform .1s, background .2s;min-height:2.5rem;display:inline-flex;align-items:center}
-.word-chip:hover{background:var(--accent-soft);border-color:var(--accent)}
-.word-chip:active{transform:scale(.95)}
-.scramble-controls{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
-.scramble-msg{font-weight:600;font-size:.95rem;width:100%;min-height:1.2rem}
-.scramble-msg.correct{color:var(--accent)}
-.scramble-msg.incorrect{color:var(--pen)}
-
 /* Stroke panel */
-.overlay{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:12px;background:var(--overlay);overflow-y:auto}
-.panel{width:min(100%,28rem);max-height:100%;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.8rem 1rem 1rem;box-shadow:0 20px 50px rgba(0,0,0,.28)}
-.p-head{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
-.p-count{color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
-.icon-btn{width:2.5rem;height:2.5rem;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.overlay{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:16px;background:var(--overlay)}
+.panel{width:min(100%,28rem);max-height:100%;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.9rem 1.25rem 1.25rem;box-shadow:0 20px 50px rgba(0,0,0,.28)}
+.p-head{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.p-count{color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums}
+.icon-btn{width:2.75rem;height:2.75rem;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
 .icon-btn:hover{background:var(--accent-soft)}
-.p-title{margin-top:.2rem;text-align:center}
-.p-pinyin{font-weight:700;font-size:1.6rem;line-height:1.2}
-.p-words{list-style:none;margin:.25rem 0 0;padding:0;color:var(--muted);font-size:.88rem}
-.p-words li{display:flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.2rem}
+.p-title{margin-top:.25rem;text-align:center}
+.p-pinyin{font-weight:700;font-size:2rem;line-height:1.2}
+.p-words{list-style:none;margin:.35rem 0 0;padding:0;color:var(--muted);font-size:.95rem}
+.p-words li{display:flex;align-items:center;justify-content:center;gap:.5rem;min-height:2.75rem}
 .p-words li>span:first-child{min-width:0;text-align:left}
-.p-words .hz{font-family:var(--font-hanzi);color:var(--ink);font-weight:500;margin-right:.2rem}
-.stage{position:relative;width:min(100%,16rem);aspect-ratio:1;margin:.75rem auto 0;border:2px solid var(--accent);background:var(--surface);touch-action:none}
+.p-words .hz{font-family:var(--font-hanzi);color:var(--ink);font-weight:500;margin-right:.25rem}
+.stage{position:relative;width:min(100%,19rem);aspect-ratio:1;margin:1rem auto 0;border:2px solid var(--accent);background:var(--surface);touch-action:none}
 .guide{position:absolute;inset:0;width:100%;height:100%}
 .guide line{stroke:var(--line);stroke-width:1.5;stroke-dasharray:6 5;vector-effect:non-scaling-stroke}
 #writer{position:absolute;inset:0}
 #writer svg{display:block;touch-action:none}
-.p-status{min-height:1.4rem;margin:.5rem 0 0;text-align:center;color:var(--muted);font-size:.88rem}
-.p-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;margin-top:.4rem}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.5rem;padding:0 .8rem;border:1px solid var(--grid);border-radius:8px;background:var(--surface);font-weight:600;font-size:0.88rem}
-.btn svg{width:1rem;height:1rem;flex:none}
+.p-status{min-height:1.5rem;margin:.6rem 0 0;text-align:center;color:var(--muted);font-size:.95rem}
+.p-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:.5rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:2.75rem;padding:0 1rem;border:1px solid var(--grid);border-radius:8px;background:var(--surface);font-weight:600}
+.btn svg{width:1.1rem;height:1.1rem;flex:none}
 .btn:hover:not(:disabled){background:var(--accent-soft);border-color:var(--accent)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .btn.primary:hover:not(:disabled){background:var(--accent);filter:brightness(1.1)}
 .btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
 .btn:disabled{opacity:.4;cursor:default}
-.steps{margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)}
-.steps-head{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
-h3{margin:0;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
-.steps-hint{margin:.2rem 0 .5rem;color:var(--muted);font-size:.8rem}
-.step-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(3.5rem,1fr));gap:.4rem}
+.steps{margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--line)}
+.steps-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+h3{margin:0;font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.steps-hint{margin:.25rem 0 .75rem;color:var(--muted);font-size:.9rem}
+.step-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(4.25rem,1fr));gap:.5rem}
 .step{position:relative;aspect-ratio:1;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
 .step svg{display:block;width:100%;height:100%}
 .step .g{stroke:var(--line);stroke-width:6;stroke-dasharray:26 20;fill:none}
 .step .done{fill:var(--ink);fill-opacity:.38}
 .step .cur{fill:var(--pen)}
 .step .start{fill:var(--ink);stroke:var(--surface);stroke-width:12}
-.step .n{position:absolute;left:3px;top:0;font-size:.68rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
-.p-foot{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem}
-.p-foot #pKnown{flex:1 1 100%}
-
-@media (min-width: 40rem) {
-  .toggles{width:auto}
-  .chip{flex:0 1 auto}
-  .p-foot #pKnown{flex:1 1 9rem}
-}
+.step .n{position:absolute;left:4px;top:1px;font-size:.75rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.p-foot{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem}
+.p-foot #pKnown{flex:1 1 9rem}
 
 @media (max-width:30rem){
   .seg{width:100%}
-  .seg button{padding-inline:.5rem}
-  .word{gap:.5rem}
-  .tile{width:2.5rem;height:2.5rem;font-size:1.4rem}
-  .panel{padding-inline:.75rem}
+  .seg button{padding-inline:.4rem}
+  .seg .ct{display:none}
+  .word{gap:.75rem}
+  .tile{width:3rem;height:3rem;font-size:1.85rem}
+  .panel{padding-inline:1rem}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important}
   .tile:active{transform:none}
 }
 </style>
-</head>
-<body>
 
 <div class="page">
   <header class="masthead">
@@ -190,8 +163,8 @@ h3{margin:0;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spac
   <div class="toolbar">
     <div class="seg" id="tabs" role="group" aria-label="Show lesson"></div>
     <div class="toggles">
-      <button type="button" class="chip" id="tHideLearned" aria-pressed="false"><span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Hide learned</button>
-      <button type="button" class="chip" id="tHideAnswers" aria-pressed="false"><span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Hide pinyin & meaning</button>
+      <button type="button" class="chip" id="tHideLearned" aria-pressed="false"><span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Hide learned words</button>
+      <button type="button" class="chip" id="tHideAnswers" aria-pressed="false"><span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Hide pinyin and meaning</button>
     </div>
   </div>
 
@@ -226,7 +199,7 @@ h3{margin:0;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spac
     </div>
     <section class="steps" aria-labelledby="stepsHead">
       <div class="steps-head"><h3 id="stepsHead">Stroke order</h3><span class="meta" id="stepsCount"></span></div>
-      <p class="steps-hint">The red stroke is added in that step. Dot marks start.</p>
+      <p class="steps-hint">The red stroke is the one added in that step. The dot marks where it starts.</p>
       <ol class="step-grid" id="stepGrid"></ol>
     </section>
     <div class="p-foot">
@@ -298,16 +271,20 @@ var LESSONS=[
   {h:'朋友',p:'péngyou',m:'friend'}
  ]},
  {id:4,words:[
-  {h:'中国',p:'Zhōngguó',m:'China'},
-  {h:'美国',p:'Měiguó',m:'America'},
-  {h:'加拿大',p:'Jiānádà',m:'Canada'}
- ]},
- {id:5,words:[
-  {h:'白俄罗斯',p:'Bái’éluósī',m:'Belarus'},
-  {h:'俄罗斯',p:'Éluósī',m:'Russia'}
+  {h:'在',p:'zài',m:'to be at, in'},
+  {h:'楼',p:'lóu',m:'building; floor'},
+  {h:'左',p:'zuǒ',m:'left'},
+  {h:'右',p:'yòu',m:'right'},
+  {h:'知道',p:'zhīdào',m:'to know (a fact)'},
+  {h:'教学',p:'jiàoxué',m:'teaching'},
+  {h:'宿舍',p:'sùshè',m:'dormitory'},
+  {h:'学校',p:'xuéxiào',m:'school'},
+  {h:'图书馆',p:'túshūguǎn',m:'library'},
+  {h:'对不起',p:'duìbuqǐ',m:'sorry'},
+  {h:'没关系',p:'méiguānxi',m:'it doesn’t matter, never mind'},
+  {h:'不用谢',p:'búyòngxiè',m:'you’re welcome'}
  ]}
 ];
-
 var PY={
  '你':'nǐ','好':'hǎo','老':'lǎo','师':'shī','吗':'ma','不':'bù','我':'wǒ','学':'xué','生':'shēng','她':'tā',
  '谢':'xiè','客':'kè','气':'qì','您':'nín','留':'liú','叫':'jiào','什':'shén','么':'me','名':'míng','字':'zì',
@@ -315,61 +292,9 @@ var PY={
  '哪':'nǎ','国':'guó','人':'rén','他':'tā','认':'rèn','识':'shí','很':'hěn','高':'gāo','兴':'xìng','也':'yě','呢':'ne',
  '那':'nà','谁':'shéi / shuí','书':'shū','屋':'wū','汉':'hàn','语':'yǔ','课':'kè','本':'běn','词':'cí','典':'diǎn',
  '就':'jiù','是':'shì','日':'rì','这':'zhè','杂':'zá','志':'zhì','音':'yīn','乐':'yuè','朋':'péng','友':'yǒu',
- '中':'zhōng','美':'měi','加':'jiā','拿':'ná','大':'dà','白':'bái','俄':'é','罗':'luó','斯':'sī'
+ '在':'zài','楼':'lóu','左':'zuǒ','右':'yòu','知':'zhī','道':'dào','教':'jiào','宿':'sù','舍':'shè','校':'xiào',
+ '图':'tú','馆':'guǎn','对':'duì','起':'qǐ','没':'méi','关':'guān','系':'xì','用':'yòng'
 };
-
-var SENTENCES = [
-  {tokens: ['你好', '！'], pinyin: 'nǐ hǎo !', meaning: 'Hello!'},
-  {tokens: ['老师', '好', '！'], pinyin: 'lǎoshī hǎo !', meaning: 'Hello, teacher!'},
-  {tokens: ['你', '好', '吗', '？'], pinyin: 'nǐ hǎo ma ?', meaning: 'How are you?'},
-  {tokens: ['我', '很', '好', '。'], pinyin: 'wǒ hěn hǎo .', meaning: 'I am very well.'},
-  {tokens: ['我', '不', '是', '老师', '。'], pinyin: 'wǒ bú shì lǎoshī .', meaning: 'I am not a teacher.'},
-  {tokens: ['我', '是', '学生', '。'], pinyin: 'wǒ shì xuésheng .', meaning: 'I am a student.'},
-  {tokens: ['她', '是', '我', '的', '老师', '。'], pinyin: 'tā shì wǒ de lǎoshī .', meaning: 'She is my teacher.'},
-  {tokens: ['谢谢', '你', '！'], pinyin: 'xièxie nǐ !', meaning: 'Thank you!'},
-  {tokens: ['不客气', '。'], pinyin: 'bú kèqi .', meaning: 'You are welcome.'},
-  {tokens: ['您', '好', '！'], pinyin: 'nín hǎo !', meaning: 'Hello! (polite)'},
-  {tokens: ['他', '是', '留学生', '。'], pinyin: 'tā shì liúxuéshēng .', meaning: 'He is an international student.'},
-  {tokens: ['你', '叫', '什么', '名字', '？'], pinyin: 'nǐ jiào shénme míngzi ?', meaning: 'What is your name?'},
-  {tokens: ['我', '叫', '大卫', '。'], pinyin: 'wǒ jiào Dàwèi .', meaning: 'My name is David.'},
-  {tokens: ['同学', '们', '好', '！'], pinyin: 'tóngxuémen hǎo !', meaning: 'Hello, classmates!'},
-  {tokens: ['我', '来', '介绍', '一下儿', '。'], pinyin: 'wǒ lái jièshào yíxiàr .', meaning: 'Let me introduce a bit.'},
-  {tokens: ['你', '姓', '什么', '？'], pinyin: 'nǐ xìng shénme ?', meaning: 'What is your surname?'},
-  {tokens: ['我', '姓', '王', '。'], pinyin: 'wǒ xìng Wáng .', meaning: 'My surname is Wang.'},
-  {tokens: ['你', '是', '哪', '国', '人', '？'], pinyin: 'nǐ shì nǎ guó rén ?', meaning: 'Which country are you from?'},
-  {tokens: ['我', '是', '中国', '人', '。'], pinyin: 'wǒ shì Zhōngguó rén .', meaning: 'I am Chinese.'},
-  {tokens: ['她', '是', '美国', '人', '。'], pinyin: 'tā shì Měiguó rén .', meaning: 'She is American.'},
-  {tokens: ['他', '是', '加拿大', '人', '。'], pinyin: 'tā shì Jiānádà rén .', meaning: 'He is Canadian.'},
-  {tokens: ['我', '的', '同屋', '是', '俄罗斯', '人', '。'], pinyin: 'wǒ de tóngwū shì Éluósī rén .', meaning: 'My roommate is Russian.'},
-  {tokens: ['她', '是', '白俄罗斯', '人', '。'], pinyin: 'tā shì Bái’éluósī rén .', meaning: 'She is Belarusian.'},
-  {tokens: ['认识', '你', '很', '高兴', '！'], pinyin: 'rènshi nǐ hěn gāoxìng !', meaning: 'Nice to meet you!'},
-  {tokens: ['认识', '您', '我', '也', '很', '高兴', '。'], pinyin: 'rènshi nín wǒ yě hěn gāoxìng .', meaning: 'Nice to meet you too.'},
-  {tokens: ['你', '呢', '？'], pinyin: 'nǐ ne ?', meaning: 'How about you?'},
-  {tokens: ['那', '是', '谁', '？'], pinyin: 'nà shì shéi ?', meaning: 'Who is that?'},
-  {tokens: ['那', '是', '我', '的', '朋友', '。'], pinyin: 'nà shì wǒ de péngyou .', meaning: 'That is my friend.'},
-  {tokens: ['这', '是', '什么', '书', '？'], pinyin: 'zhè shì shénme shū ?', meaning: 'What book is this?'},
-  {tokens: ['这', '是', '汉语', '课本', '。'], pinyin: 'zhè shì Hànyǔ kèběn .', meaning: 'This is a Chinese textbook.'},
-  {tokens: ['这', '是', '日语', '词典', '。'], pinyin: 'zhè shì Rìyǔ cídiǎn .', meaning: 'This is a Japanese dictionary.'},
-  {tokens: ['他', '就是', '我', '的', '同屋', '。'], pinyin: 'tā jiùshì wǒ de tóngwū .', meaning: 'He is exactly my roommate.'},
-  {tokens: ['那', '是', '谁', '的', '杂志', '？'], pinyin: 'nà shì shéi de zázhì ?', meaning: 'Whose magazine is that?'},
-  {tokens: ['这', '是', '我', '的', '音乐', '杂志', '。'], pinyin: 'zhè shì wǒ de yīnyuè zázhì .', meaning: 'This is my music magazine.'},
-  {tokens: ['我', '不', '认识', '他', '。'], pinyin: 'wǒ bù rènshi tā .', meaning: 'I do not know him.'},
-  {tokens: ['你', '是', '留学生', '吗', '？'], pinyin: 'nǐ shì liúxuéshēng ma ?', meaning: 'Are you an international student?'},
-  {tokens: ['我', '也是', '学生', '。'], pinyin: 'wǒ yě shì xuésheng .', meaning: 'I am also a student.'},
-  {tokens: ['老师', '不', '是', '美国', '人', '。'], pinyin: 'lǎoshī bú shì Měiguó rén .', meaning: 'The teacher is not American.'},
-  {tokens: ['他', '是', '中国', '老师', '。'], pinyin: 'tā shì Zhōngguó lǎoshī .', meaning: 'He is a Chinese teacher.'},
-  {tokens: ['这', '是', '你', '的', '书', '吗', '？'], pinyin: 'zhè shì nǐ de shū ma ?', meaning: 'Is this your book?'},
-  {tokens: ['那', '不', '是', '我', '的', '词典', '。'], pinyin: 'nà bú shì wǒ de cídiǎn .', meaning: 'That is not my dictionary.'},
-  {tokens: ['同学', '们', '来', '介绍', '一下儿', '。'], pinyin: 'tóngxuémen lái jièshào yíxiàr .', meaning: 'Classmates, please introduce yourselves.'},
-  {tokens: ['他', '也', '叫', '大卫', '。'], pinyin: 'tā yě jiào Dàwèi .', meaning: 'He is also named David.'},
-  {tokens: ['我', '很高兴', '认识', '你', '的', '朋友', '。'], pinyin: 'wǒ hěn gāoxìng rènshi nǐ de péngyou .', meaning: 'I am glad to meet your friend.'},
-  {tokens: ['俄罗斯', '很大', '。'], pinyin: 'Éluósī hěn dà .', meaning: 'Russia is very big.'},
-  {tokens: ['你', '的', '同屋', '是', '哪', '国', '人', '？'], pinyin: 'nǐ de tóngwū shì nǎ guó rén ?', meaning: 'Which country is your roommate from?'},
-  {tokens: ['白俄罗斯', '人', '很', '好', '。'], pinyin: 'Bái’éluósī rén hěn hǎo .', meaning: 'Belarusian people are very nice.'},
-  {tokens: ['加拿大', '的', '风景', '很', '美', '。'], pinyin: 'Jiānádà de fēngjǐng hěn měi .', meaning: 'Canada\'s scenery is beautiful.'},
-  {tokens: ['那', '是', '汉语', '杂志', '吗', '？'], pinyin: 'nà shì Hànyǔ zázhì ma ?', meaning: 'Is that a Chinese magazine?'},
-  {tokens: ['这', '就是', '我', '的', '汉语', '老师', '。'], pinyin: 'zhè jiùshì wǒ de Hànyǔ lǎoshī .', meaning: 'This is exactly my Chinese teacher.'}
-];
 /*END DATA*/
 
 var $=function(id){return document.getElementById(id);};
@@ -385,18 +310,18 @@ LESSONS.forEach(function(L){L.words.forEach(function(w){Array.from(w.h).forEach(
   seq[seqIndex[c]].words.push(w);
 });});});
 
-/* Saved state */
+/* Saved state (per browser, optional) */
 var store={
   get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
   set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 };
 var known=new Set((store.get('hzbook.known',[])||[]).filter(function(c){return c in seqIndex;}));
 var ui=Object.assign({tab:'1',hideLearned:false,hideAnswers:false},store.get('hzbook.ui',{})||{});
-if(['1','2','3','4','5','all','sentences'].indexOf(ui.tab)<0)ui.tab='1';
+if(['1','2','3','4','all'].indexOf(ui.tab)<0)ui.tab='1';
 function saveUi(){store.set('hzbook.ui',ui);}
 function saveKnown(){store.set('hzbook.known',Array.from(known));}
 
-/* Stroke data */
+/* Stroke data, loaded from the hanzi-writer-data package as an ES module */
 var DATA_BASE='https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1/';
 var cache=new Map();
 function loadChar(ch){
@@ -411,6 +336,16 @@ function loadChar(ch){
   }
   return cache.get(ch);
 }
+function prefetch(){
+  var q=seq.map(function(e){return e.c;}),active=0;
+  function next(){
+    while(active<4&&q.length){
+      var c=q.shift();active++;
+      loadChar(c).catch(function(){}).then(function(){active--;next();});
+    }
+  }
+  setTimeout(next,500);
+}
 
 /* ---------- List ---------- */
 function allKnown(w){return Array.from(w.h).every(function(c){return known.has(c);});}
@@ -418,14 +353,14 @@ function allKnown(w){return Array.from(w.h).every(function(c){return known.has(c
 function wordRow(w){
   var li=document.createElement('li');li.className='word';
   var tiles=Array.from(w.h).map(function(c){
-    return '<button type="button" class="tile" data-char="'+c+'" data-known="'+known.has(c)+'" aria-label="Stroke order for '+c+', '+(PY[c]||'')+ '"><span>'+c+'</span>'+CHECK+'</button>';
+    return '<button type="button" class="tile" data-char="'+c+'" data-known="'+known.has(c)+'" aria-label="Stroke order for '+c+', '+PY[c]+'"><span>'+c+'</span>'+CHECK+'</button>';
   }).join('');
   li.innerHTML='<div class="tiles">'+tiles+'</div><div class="ans"><div class="py">'+w.p+'</div><div class="mean">'+w.m+'</div></div>'+
     '<button type="button" class="say" data-say="'+w.h+'" aria-label="Hear '+w.h+'">'+SPK+'</button>';
   return li;
 }
 
-/* ---------- Voice ---------- */
+/* ---------- Voice (the device’s own Chinese text-to-speech voice) ---------- */
 var noteTimer;
 function note(t){
   var n=$('note');n.textContent=t;n.hidden=false;
@@ -447,125 +382,8 @@ function speak(text){
 }
 if(window.speechSynthesis){window.speechSynthesis.getVoices();}
 
-/* ---------- Scramble Game State ---------- */
-var curScrambleIdx = 0;
-var scrambleSlots = [];
-var scramblePool = [];
-
-function shuffle(arr){
-  var a = arr.slice();
-  for (var i = a.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var x = a[i]; a[i] = a[j]; a[j] = x;
-  }
-  return a;
-}
-
-function renderScrambleSec(){
-  var root = $('list');
-  var s = SENTENCES[curScrambleIdx];
-  
-  var sec = document.createElement('section');
-  sec.className = 'scramble-sec';
-  
-  var html = '<div class="scramble-header">' +
-      '<h2>Sentence Practice (' + (curScrambleIdx + 1) + ' / ' + SENTENCES.length + ')</h2>' +
-      '<div><button type="button" class="btn" id="scramblePrev">Previous</button> ' +
-      '<button type="button" class="btn" id="scrambleNext">Next</button></div>' +
-    '</div>' +
-    '<div class="scramble-card">' +
-      '<div class="scramble-target">' +
-        '<span>Translate & Unscramble:</span>' +
-        '<span class="m">' + s.meaning + '</span>' +
-      '</div>' +
-      '<div><strong>Your Answer:</strong><div class="slots-area" id="scrambleSlots"></div></div>' +
-      '<div><strong>Word Bank:</strong><div class="pool-area" id="scramblePool"></div></div>' +
-      '<div class="scramble-controls">' +
-        '<button type="button" class="btn primary" id="scrambleCheck">Check Order</button>' +
-        '<button type="button" class="btn" id="scrambleReset">Reset</button>' +
-        '<button type="button" class="say" id="scrambleSpeak" aria-label="Hear sentence">' + SPK + '</button>' +
-        '<div class="scramble-msg" id="scrambleMsg"></div>' +
-      '</div>' +
-    '</div>';
-    
-  sec.innerHTML = html;
-  root.appendChild(sec);
-  
-  scrambleSlots = [];
-  scramblePool = shuffle(s.tokens.map(function(tok, idx){ return {id: idx, text: tok}; }));
-  
-  updateScrambleUI();
-  
-  $('scramblePrev').onclick = function(){ if(curScrambleIdx > 0){ curScrambleIdx--; renderList(); }};
-  $('scrambleNext').onclick = function(){ if(curScrambleIdx < SENTENCES.length - 1){ curScrambleIdx++; renderList(); }};
-  $('scrambleCheck').onclick = checkScramble;
-  $('scrambleReset').onclick = function(){
-    scrambleSlots = [];
-    scramblePool = shuffle(s.tokens.map(function(tok, idx){ return {id: idx, text: tok}; }));
-    $('scrambleMsg').textContent = '';
-    $('scrambleMsg').className = 'scramble-msg';
-    updateScrambleUI();
-  };
-  $('scrambleSpeak').onclick = function(){ speak(s.tokens.join('')); };
-}
-
-function updateScrambleUI(){
-  var slotsEl = $('scrambleSlots');
-  var poolEl = $('scramblePool');
-  if(!slotsEl || !poolEl) return;
-  
-  slotsEl.innerHTML = '';
-  poolEl.innerHTML = '';
-  
-  scrambleSlots.forEach(function(item, idx){
-    var btn = document.createElement('button');
-    btn.className = 'word-chip';
-    btn.textContent = item.text;
-    btn.onclick = function(){
-      scrambleSlots.splice(idx, 1);
-      scramblePool.push(item);
-      updateScrambleUI();
-    };
-    slotsEl.appendChild(btn);
-  });
-  
-  scramblePool.forEach(function(item, idx){
-    var btn = document.createElement('button');
-    btn.className = 'word-chip';
-    btn.textContent = item.text;
-    btn.onclick = function(){
-      scramblePool.splice(idx, 1);
-      scrambleSlots.push(item);
-      updateScrambleUI();
-    };
-    poolEl.appendChild(btn);
-  });
-}
-
-function checkScramble(){
-  var s = SENTENCES[curScrambleIdx];
-  var userAns = scrambleSlots.map(function(item){ return item.text; }).join('');
-  var targetAns = s.tokens.join('');
-  var msgEl = $('scrambleMsg');
-  
-  if(userAns === targetAns){
-    msgEl.textContent = 'Correct! Great job! (' + s.pinyin + ')';
-    msgEl.className = 'scramble-msg correct';
-    speak(targetAns);
-  } else {
-    msgEl.textContent = 'Not quite right. Try again!';
-    msgEl.className = 'scramble-msg incorrect';
-  }
-}
-
 function renderList(){
   var root=$('list');root.textContent='';
-  
-  if(ui.tab === 'sentences'){
-    renderScrambleSec();
-    return;
-  }
-  
   LESSONS.forEach(function(L){
     if(ui.tab!=='all'&&String(L.id)!==ui.tab)return;
     var words=L.words.filter(function(w){return !(ui.hideLearned&&allKnown(w));});
@@ -600,9 +418,7 @@ function applyAnswerMode(){
 function renderTabs(){
   var tabs=$('tabs');tabs.textContent='';
   var items=LESSONS.map(function(L){return {k:String(L.id),label:'Lesson '+L.id,n:L.words.length};});
-  items.push({k:'all',label:'All Words',n:LESSONS.reduce(function(s,L){return s+L.words.length;},0)});
-  items.push({k:'sentences',label:'Sentence Practice',n:SENTENCES.length});
-  
+  items.push({k:'all',label:'All',n:LESSONS.reduce(function(s,L){return s+L.words.length;},0)});
   items.forEach(function(it){
     var b=document.createElement('button');b.type='button';b.dataset.tab=it.k;
     b.setAttribute('aria-pressed',String(ui.tab===it.k));
@@ -667,14 +483,14 @@ function mountWriter(mode){
     setStatus('The writing animation did not load. The steps below still show the order.');return;
   }
   var c=seq[cur].c,token=fillToken;
-  var size=Math.round($('stage').clientWidth)||240;
+  var size=Math.round($('stage').clientWidth)||280;
   var cs=getComputedStyle(document.documentElement);
   var col=function(n){return cs.getPropertyValue(n).trim();};
   writer=HanziWriter.create(host,c,{
     width:size,height:size,padding:Math.round(size*0.07),
     showCharacter:mode==='rest',showOutline:true,
     strokeColor:col('--ink'),outlineColor:col('--grid'),highlightColor:col('--pen'),drawingColor:col('--ink'),
-    drawingWidth:Math.max(5,Math.round(size/28)),
+    drawingWidth:Math.max(6,Math.round(size/28)),
     strokeAnimationSpeed:slow?0.5:1.1,delayBetweenStrokes:slow?800:350,
     showHintAfterMisses:2,highlightOnComplete:true,
     charDataLoader:function(ch,onLoad,onError){loadChar(ch).then(onLoad,onError);}
@@ -692,7 +508,7 @@ function mountWriter(mode){
         if(token!==fillToken)return;
         setStatus(d.strokesRemaining>0?'Stroke '+(d.strokeNum+1)+' is right. Now stroke '+(d.strokeNum+2)+' of '+n+'.':'Last stroke is right.');
       },
-      onMistake:function(){if(token===fillToken)setStatus('Not quite. Check direction and start point.');},
+      onMistake:function(){if(token===fillToken)setStatus('Not quite. Check the start point and direction, then try again.');},
       onComplete:function(d){
         if(token!==fillToken)return;
         setPracticeUI(false);
@@ -714,7 +530,7 @@ function fillPanel(mode){
   var e=seq[cur],token=++fillToken;
   curData=null;
   $('pCount').textContent='Lesson '+e.lesson+' · '+(cur+1)+' of '+seq.length;
-  $('pPinyin').textContent=PY[e.c]||'';
+  $('pPinyin').textContent=PY[e.c];
   $('pWords').innerHTML=e.words.map(function(w){
     return '<li><span><span class="hz">'+w.h+'</span> '+w.p+' · '+w.m+'</span><button type="button" class="say" data-say="'+w.h+'" aria-label="Hear '+w.h+'">'+SPK+'</button></li>';
   }).join('');
@@ -728,7 +544,7 @@ function fillPanel(mode){
     curData=data;renderSteps(data);mountWriter(mode);
   }).catch(function(){
     if(token!==fillToken)return;
-    setStatus('Stroke data could not load. Check connection and try again.');
+    setStatus('Stroke data could not load. Check your connection, then press Replay to try again.');
   });
 }
 
@@ -819,13 +635,18 @@ document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){e.preventDefault();closePanel();return;}
   if(e.key==='ArrowLeft'){go(-1);return;}
   if(e.key==='ArrowRight'){go(1);return;}
+  if(e.key==='Tab'){
+    var f=Array.from($('panel').querySelectorAll('button:not(:disabled)'));
+    if(!f.length)return;
+    var first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  }
 });
 
-/* Init */
-renderTabs();
-renderList();
-updateProgress();
+/* ---------- Start ---------- */
+$('tHideLearned').setAttribute('aria-pressed',String(ui.hideLearned));
+$('tHideAnswers').setAttribute('aria-pressed',String(ui.hideAnswers));
+renderTabs();renderList();updateProgress();prefetch();
 })();
 </script>
-</body>
-</html>
