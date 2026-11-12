@@ -223,118 +223,127 @@ h3{margin:0;font-size:1rem;font-weight:700;text-transform:uppercase;letter-spaci
 (function(){
 'use strict';
 
-/*DATA*/
+/*DATA: Точные слова из учебника Boya Chinese (Уроки 1-6)[cite: 200, 205, 211, 217, 224, 230] */
 var LESSONS=[
  {id:1,words:[
-  {h:'你好',p:'nǐ hǎo',m:'hello'},
-  {h:'好',p:'hǎo',m:'good, well'},
-  {h:'你',p:'nǐ',m:'you'},
-  {h:'老师',p:'lǎoshī',m:'teacher'},
-  {h:'吗',p:'ma',m:'question particle'},
-  {h:'不',p:'bù',m:'not, no'},
-  {h:'我',p:'wǒ',m:'I, me'},
-  {h:'学生',p:'xuésheng',m:'student'},
-  {h:'她',p:'tā',m:'she, her'},
-  {h:'谢谢',p:'xièxie',m:'thank you'},
-  {h:'不客气',p:'bú kèqi',m:'you’re welcome'},
-  {h:'您',p:'nín',m:'you (polite)'},
-  {h:'留学生',p:'liúxuéshēng',m:'international student'},
-  {h:'叫',p:'jiào',m:'to be called'},
-  {h:'什么',p:'shénme',m:'what'},
-  {h:'名字',p:'míngzi',m:'name'}
+  {h:'你好',p:'nǐ hǎo',m:'здравствуйте'},
+  {h:'好',p:'hǎo',m:'хороший'},
+  {h:'你',p:'nǐ',m:'ты'},
+  {h:'老师',p:'lǎoshī',m:'учитель'},
+  {h:'吗',p:'ma',m:'вопросительная частица'},
+  {h:'不',p:'bù',m:'не, нет'},
+  {h:'我',p:'wǒ',m:'я'},
+  {h:'学生',p:'xuésheng',m:'студент, учащийся'},
+  {h:'她',p:'tā',m:'она'},
+  {h:'谢谢',p:'xièxie',m:'спасибо'},
+  {h:'不客气',p:'bú kèqi',m:'пожалуйста, не за что'},
+  {h:'您',p:'nín',m:'вы (уважительно)'},
+  {h:'留学生',p:'liúxuéshēng',m:'иностранный студент'},
+  {h:'叫',p:'jiào',m:'звать, называться'},
+  {h:'什么',p:'shénme',m:'что, какой'},
+  {h:'名字',p:'míngzi',m:'имя'}
  ]},
  {id:2,words:[
-  {h:'同学',p:'tóngxué',m:'classmate'},
-  {h:'们',p:'men',m:'plural suffix for people'},
-  {h:'来',p:'lái',m:'to come'},
-  {h:'介绍',p:'jièshào',m:'to introduce'},
-  {h:'一下儿',p:'yíxiàr',m:'a bit, once (after a verb)'},
-  {h:'姓',p:'xìng',m:'surname; to be surnamed'},
-  {h:'的',p:'de',m:'possessive particle'},
-  {h:'哪',p:'nǎ',m:'which'},
-  {h:'国',p:'guó',m:'country'},
-  {h:'人',p:'rén',m:'person'},
-  {h:'他',p:'tā',m:'he, him'},
-  {h:'认识',p:'rènshi',m:'to know (someone), to meet'},
-  {h:'很',p:'hěn',m:'very'},
-  {h:'高兴',p:'gāoxìng',m:'glad, happy'},
-  {h:'也',p:'yě',m:'also, too'},
-  {h:'呢',p:'ne',m:'and you? (particle)'}
+  {h:'同学',p:'tóngxué',m:'сокурсник, одноклассник'},
+  {h:'们',p:'-men',m:'суффикс мн. числа'},
+  {h:'来',p:'lái',m:'приходить, давай'},
+  {h:'介绍',p:'jièshào',m:'представлять'},
+  {h:'一下儿',p:'yíxiàr',m:'разок, немного'},
+  {h:'姓',p:'xìng',m:'носить фамилию; фамилия'},
+  {h:'的',p:'de',m:'притяжательная частица'},
+  {h:'哪',p:'nǎ',m:'какой, который'},
+  {h:'国',p:'guó',m:'страна'},
+  {h:'人',p:'rén',m:'человек'},
+  {h:'他',p:'tā',m:'он'},
+  {h:'认识',p:'rènshi',m:'знакомиться, знать'},
+  {h:'很',p:'hěn',m:'очень'},
+  {h:'高兴',p:'gāoxìng',m:'радостный, рад'},
+  {h:'也',p:'yě',m:'тоже, также'},
+  {h:'呢',p:'ne',m:'частица для встречного вопроса'}
  ]},
  {id:3,words:[
-  {h:'那',p:'nà',m:'that'},
-  {h:'谁',p:'shéi / shuí',m:'who'},
-  {h:'书',p:'shū',m:'book'},
-  {h:'同屋',p:'tóngwū',m:'roommate'},
-  {h:'汉语',p:'Hànyǔ',m:'Chinese language'},
-  {h:'课本',p:'kèběn',m:'textbook'},
-  {h:'词典',p:'cídiǎn',m:'dictionary'},
-  {h:'就是',p:'jiùshì',m:'is exactly, that is'},
-  {h:'日语',p:'Rìyǔ',m:'Japanese language'},
-  {h:'这',p:'zhè',m:'this'},
-  {h:'杂志',p:'zázhì',m:'magazine'},
-  {h:'音乐',p:'yīnyuè',m:'music'},
-  {h:'朋友',p:'péngyou',m:'friend'}
+  {h:'那',p:'nà',m:'то, тот'},
+  {h:'谁',p:'shéi / shuí',m:'кто, чей'},
+  {h:'书',p:'shū',m:'книга'},
+  {h:'同屋',p:'tóngwū',m:'сосед по комнате'},
+  {h:'汉语',p:'Hànyǔ',m:'китайский язык'},
+  {h:'课本',p:'kèběn',m:'учебник'},
+  {h:'词典',p:'cídiǎn',m:'словарь'},
+  {h:'就是',p:'jiù shì',m:'именно, то есть'},
+  {h:'日语',p:'Rìyǔ',m:'японский язык'},
+  {h:'这',p:'zhè',m:'это, этот'},
+  {h:'杂志',p:'zázhì',m:'журнал'},
+  {h:'音乐',p:'yīnyuè',m:'музыка'},
+  {h:'朋友',p:'péngyou',m:'друг'}
  ]},
  {id:4,words:[
-  {h:'在',p:'zài',m:'to be at, in'},
-  {h:'楼',p:'lóu',m:'building; floor'},
-  {h:'左',p:'zuǒ',m:'left'},
-  {h:'右',p:'yòu',m:'right'},
-  {h:'知道',p:'zhīdào',m:'to know (a fact)'},
-  {h:'教学',p:'jiàoxué',m:'teaching'},
-  {h:'宿舍',p:'sùshè',m:'dormitory'},
-  {h:'学校',p:'xuéxiào',m:'school'},
-  {h:'图书馆',p:'túshūguǎn',m:'library'},
-  {h:'对不起',p:'duìbuqǐ',m:'sorry'},
-  {h:'没关系',p:'méiguānxi',m:'it doesn’t matter, never mind'},
-  {h:'不用谢',p:'búyòngxiè',m:'you’re welcome'}
+  {h:'请问',p:'qǐngwèn',m:'позвольте спросить'},
+  {h:'图书馆',p:'túshūguǎn',m:'библиотека'},
+  {h:'在',p:'zài',m:'находиться, в'},
+  {h:'哪儿',p:'nǎr',m:'где'},
+  {h:'对不起',p:'duìbuqǐ',m:'извините'},
+  {h:'个',p:'gè',m:'универсальное счетное слово'},
+  {h:'学校',p:'xuéxiào',m:'школа, вуз'},
+  {h:'知道',p:'zhīdào',m:'знать'},
+  {h:'没关系',p:'méi guānxi',m:'ничего страшного'},
+  {h:'这儿',p:'zhèr',m:'здесь'},
+  {h:'教学',p:'jiàoxué',m:'преподавание'},
+  {h:'楼',p:'lóu',m:'здание, этаж'},
+  {h:'那儿',p:'nàr',m:'там'},
+  {h:'宿舍',p:'sùshè',m:'общежитие'},
+  {h:'北边',p:'běibian',m:'север, северная сторона'},
+  {h:'左边',p:'zuǒbian',m:'левая сторона'},
+  {h:'右边',p:'yòubian',m:'правая сторона'},
+  {h:'不用谢',p:'bú yòng xiè',m:'не за что'}
  ]},
  {id:5,words:[
-  {h:'专业',p:'zhuānyè',m:'major, specialty'},
-  {h:'中文系',p:'Zhōngwénxì',m:'Department of Chinese'},
-  {h:'现代文学',p:'xiàndài wénxué',m:'modern literature'},
-  {h:'国际关系',p:'guójì guānxì',m:'international relations'},
-  {h:'研究生',p:'yánjiūshēng',m:'graduate student'},
-  {h:'教室',p:'jiàoshì',m:'classroom'},
-  {h:'卫生间',p:'wèishēngjiān',m:'restroom, bathroom'},
-  {h:'旁边',p:'pángbiān',m:'beside, next to'},
-  {h:'东边',p:'dōngbiān',m:'east side'},
-  {h:'西边',p:'xībiān',m:'west side'},
-  {h:'有',p:'yǒu',m:'to have, there is'},
-  {h:'有空儿',p:'yǒu kòngr',m:'to have free time'},
-  {h:'时候',p:'shíhou',m:'time, moment'},
-  {h:'去',p:'qù',m:'to go'},
-  {h:'玩儿',p:'wánr',m:'to play, hang out, have fun'},
-  {h:'欢迎',p:'huānyíng',m:'welcome'},
-  {h:'对',p:'duì',m:'right, correct'}
+  {h:'专业',p:'zhuānyè',m:'специальность'},
+  {h:'国际',p:'guójì',m:'международный'},
+  {h:'关系',p:'guānxi',m:'связь, отношения'},
+  {h:'中文',p:'Zhōngwén',m:'китайский язык'},
+  {h:'系',p:'xì',m:'факультет'},
+  {h:'研究生',p:'yánjiūshēng',m:'аспирант, магистрант'},
+  {h:'现代',p:'xiàndài',m:'современный'},
+  {h:'文学',p:'wénxué',m:'литература'},
+  {h:'东边',p:'dōngbiān',m:'восток, восточная сторона'},
+  {h:'有',p:'yǒu',m:'иметь, иметься'},
+  {h:'空儿',p:'kòngr',m:'свободное время'},
+  {h:'时候',p:'shíhou',m:'время, момент'},
+  {h:'欢迎',p: 'huānyíng',m:'приветствовать, добро пожаловать'},
+  {h:'去',p:'qù',m:'идти, ехать'},
+  {h:'玩儿',p:'wánr',m:'играть, гулять, развлекаться'},
+  {h:'卫生间',p:'wèishēngjiān',m:'туалет'},
+  {h:'教室',p:'jiàoshì',m:'аудитория, класс'},
+  {h:'旁边',p:'pángbiān',m:'рядом, сбоку'},
+  {h:'西边',p:'xībian',m:'запад, западная сторона'},
+  {h:'对',p:'duì',m:'правильный, верный'}
  ]},
  {id:6,words:[
-  {h:'现在',p:'xiànzài',m:'now'},
-  {h:'几点',p:'jǐ diǎn',m:'what time'},
-  {h:'点',p:'diǎn',m:'o’clock'},
-  {h:'分',p:'fēn',m:'minute'},
-  {h:'半',p:'bàn',m:'half (30 minutes)'},
-  {h:'刻',p:'kè',m:'quarter of an hour (15 min)'},
-  {h:'差',p:'chà',m:'to lack, short of (time)'},
-  {h:'早上',p:'zǎoshang',m:'early morning'},
-  {h:'上午',p:'shàngwǔ',m:'morning (before noon)'},
-  {h:'中午',p:'zhōngwǔ',m:'noon'},
-  {h:'下午',p:'xiàwǔ',m:'afternoon'},
-  {h:'晚上',p:'wǎnshang',m:'evening, night'},
-  {h:'上课',p:'shàngkè',m:'to attend class, start class'},
-  {h:'下课',p:'xiàkè',m:'to finish class'},
-  {h:'开始',p:'kāishǐ',m:'to begin, start'},
-  {h:'讲座',p:'jiǎngzuò',m:'lecture'},
-  {h:'一会儿',p:'yíhuìr',m:'a little while'},
-  {h:'见',p:'jiàn',m:'to see, meet'},
-  {h:'太早了',p:'tài zǎo le',m:'too early'},
-  {h:'大部分',p:'dàbùfen',m:'most, majority'},
-  {h:'起床',p:'qǐchuáng',m:'to get up (from bed)'},
-  {h:'吃早饭',p:'chī zǎofàn',m:'to eat breakfast'},
-  {h:'听讲座',p:'tīng jiǎngzuò',m:'to attend/listen to a lecture'},
-  {h:'写作业',p:'xiě zuòyè',m:'to do homework'},
-  {h:'睡觉',p:'shuìjiào',m:'to sleep, go to bed'}
+  {h:'大学',p:'dàxué',m:'университет'},
+  {h:'早上',p:'zǎoshang',m:'утро'},
+  {h:'几',p:'jǐ',m:'сколько'},
+  {h:'点',p:'diǎn',m:'час (время)'},
+  {h:'上课',p:'shàngkè',m:'идти на занятия, начинать урок'},
+  {h:'大部分',p:'dà bùfen',m:'большая часть, большинство'},
+  {h:'九',p:'jiǔ',m:'девять'},
+  {h:'我们',p:'wǒmen',m:'мы'},
+  {h:'八',p:'bā',m:'восемь'},
+  {h:'五十',p:'wǔshí',m:'пятьдесят'},
+  {h:'分',p:'fēn',m:'минута'},
+  {h:'下课',p:'xiàkè',m:'заканчивать урок'},
+  {h:'十',p:'shí',m:'десять'},
+  {h:'半',p:'bàn',m:'половина'},
+  {h:'太……了',p:'tài... le',m:'слишком, чересчур'},
+  {h:'早',p:'zǎo',m:'ранний, рано'},
+  {h:'讲座',p:'jiǎngzuò',m:'лекция'},
+  {h:'开始',p:'kāishǐ',m:'начинать(ся)'},
+  {h:'六',p:'liù',m:'шесть'},
+  {h:'现在',p:'xiànzài',m:'сейчас'},
+  {h:'差',p:'chà',m:'не хватать, без... (время)'},
+  {h:'一',p:'yī',m:'один'},
+  {h:'刻',p:'kè',m:'четверть часа'},
+  {h:'一会儿',p:'yíhuìr',m:'немного, скоро'},
+  {h:'见',p:'jiàn',m:'видеться, встретиться'}
  ]}
 ];
 
@@ -348,15 +357,16 @@ var PY={
  '在':'zài','楼':'lóu','左':'zuǒ','右':'yòu','知':'zhī','道':'dào','教':'jiào','宿':'sù','舍':'shè','校':'xiào',
  '图':'tú','馆':'guǎn','对':'duì','起':'qǐ','没':'méi','关':'guān','系':'xì','用':'yòng',
  /* Lesson 5 */
- '专':'zhuān','业':'yè','中':'zhōng','文':'wén','现':'xiàn','代':'dài','际':'jì','研':'yán','究':'jiū','室':'shì',
- '卫':'wèi','间':'jiān','旁':'páng','边':'biān','东':'dōng','西':'xī','有':'yǒu','空':'kòng','时':'shí','候':'hòu',
- '去':'qù','玩':'wán','欢':'huān','迎':'yíng',
+ '专':'zhuān','业':'yè','国':'guó','际':'jì','关':'guān','系':'xì','中':'zhōng','文':'wén','系':'xì','研':'yán',
+ '究':'jiū','生':'shēng','现':'xiàn','代':'dài','文':'wén','学':'xué','东':'dōng','边':'biān','有':'yǒu','空':'kòng',
+ '时':'shí','候':'hòu','欢':'huān','迎':'yíng','去':'qù','玩':'wán','卫':'wèi','生':'shēng','间':'jiān','教':'jiào',
+ '室':'shì','旁':'páng','西':'xī',
  /* Lesson 6 */
- '几':'jǐ','点':'diǎn','分':'fēn','半':'bàn','刻':'kè','差':'chà','早':'zǎo','上':'shàng','午':'wǔ','晚':'wǎn',
- '开':'kāi','始':'shǐ','讲':'jiǎng','座':'zuò','会':'huì','见':'jiàn','太':'tài','了':'le','大':'dà','部':'bù',
- '床':'chuáng','吃':'chī','饭':'fàn','听':'tīng','写':'xiě','作':'zuò','睡':'shuì','觉':'jiào'
+ '大':'dà','学':'xué','早':'zǎo','上':'shàng','几':'jǐ','点':'diǎn','课':'kè','大':'dà','部':'bù','分':'fēn',
+ '九':'jiǔ','我':'wǒ','们':'men','八':'bā','五':'wǔ','十':'shí','下':'xià','半':'bàn','太':'tài','了':'le',
+ '讲':'jiǎng','座':'zuò','开':'kāi','始':'shǐ','六':'liù','现':'xiàn','在':'zài','差':'chà','刻':'kè',
+ '会':'huì','见':'jiàn'
 };
-/*END DATA*/
 
 var $=function(id){return document.getElementById(id);};
 var SVGNS='http://www.w3.org/2000/svg';
@@ -364,14 +374,12 @@ var CHECK='<svg class="ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12
 var SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" fill="currentColor"/><path d="M15.5 9a4 4 0 010 6M18 6.5a7.5 7.5 0 010 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* Unique characters in the order they are first met */
 var seq=[],seqIndex={};
 LESSONS.forEach(function(L){L.words.forEach(function(w){Array.from(w.h).forEach(function(c){
   if(!(c in seqIndex)){seqIndex[c]=seq.length;seq.push({c:c,lesson:L.id,words:[]});}
   seq[seqIndex[c]].words.push(w);
 });});});
 
-/* Saved state (per browser, optional) */
 var store={
   get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
   set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
@@ -382,7 +390,6 @@ if(['1','2','3','4','5','6','all'].indexOf(ui.tab)<0)ui.tab='1';
 function saveUi(){store.set('hzbook.ui',ui);}
 function saveKnown(){store.set('hzbook.known',Array.from(known));}
 
-/* Stroke data, loaded from the hanzi-writer-data package as an ES module */
 var DATA_BASE='https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1/';
 var cache=new Map();
 function loadChar(ch){
@@ -397,18 +404,7 @@ function loadChar(ch){
   }
   return cache.get(ch);
 }
-function prefetch(){
-  var q=seq.map(function(e){return e.c;}),active=0;
-  function next(){
-    while(active<4&&q.length){
-      var c=q.shift();active++;
-      loadChar(c).catch(function(){}).then(function(){active--;next();});
-    }
-  }
-  setTimeout(next,500);
-}
 
-/* ---------- List ---------- */
 function allKnown(w){return Array.from(w.h).every(function(c){return known.has(c);});}
 
 function wordRow(w){
@@ -421,7 +417,6 @@ function wordRow(w){
   return li;
 }
 
-/* ---------- Voice (the device’s own Chinese text-to-speech voice) ---------- */
 var noteTimer;
 function note(t){
   var n=$('note');n.textContent=t;n.hidden=false;
@@ -435,7 +430,7 @@ function speak(text){
   var ss=window.speechSynthesis;
   if(!ss||typeof SpeechSynthesisUtterance==='undefined'){note('This browser cannot play speech.');return;}
   var v=zhVoice();
-  if(!v&&ss.getVoices().length){note('No Chinese voice found on this device. Add one in your system speech settings.');return;}
+  if(!v&&ss.getVoices().length){note('No Chinese voice found on this device.');return;}
   ss.cancel();
   var u=new SpeechSynthesisUtterance(text);
   u.lang='zh-CN';if(v)u.voice=v;u.rate=0.8;
@@ -454,11 +449,6 @@ function renderList(){
     var ul=document.createElement('ul');ul.className='words';
     words.forEach(function(w){ul.appendChild(wordRow(w));});
     sec.appendChild(ul);
-    if(!words.length){
-      var p=document.createElement('p');p.className='empty';
-      p.textContent='Every word in this lesson is marked as learned. Turn off “Hide learned words” to review them.';
-      sec.appendChild(p);
-    }
     root.appendChild(sec);
   });
   applyAnswerMode();
@@ -466,14 +456,6 @@ function renderList(){
 
 function applyAnswerMode(){
   document.documentElement.classList.toggle('hide-answers',ui.hideAnswers);
-  $('list').querySelectorAll('.ans').forEach(function(a){
-    var row=a.closest('.word');
-    if(ui.hideAnswers&&!row.classList.contains('rev')){
-      a.tabIndex=0;a.setAttribute('role','button');a.setAttribute('aria-label','Reveal pinyin and meaning');
-    }else{
-      a.removeAttribute('tabindex');a.removeAttribute('role');a.removeAttribute('aria-label');
-    }
-  });
 }
 
 function renderTabs(){
@@ -498,7 +480,6 @@ function updateTiles(){
   document.querySelectorAll('.tile').forEach(function(t){t.dataset.known=String(known.has(t.dataset.char));});
 }
 
-/* ---------- Stroke panel ---------- */
 var cur=-1,writer=null,slow=false,quizzing=false,fillToken=0,curData=null,opener=null,dirty=false;
 
 function setStatus(t){$('pStatus').textContent=t||'';}
@@ -510,7 +491,6 @@ function setPracticeUI(on){
 
 function stepItem(data,i){
   var li=document.createElement('li');li.className='step';
-  li.setAttribute('aria-label','Stroke '+(i+1)+' of '+data.strokes.length);
   var svg=document.createElementNS(SVGNS,'svg');
   svg.setAttribute('viewBox','0 0 1024 1024');svg.setAttribute('aria-hidden','true');
   var guide=document.createElementNS(SVGNS,'path');
@@ -521,28 +501,19 @@ function stepItem(data,i){
     var p=document.createElementNS(SVGNS,'path');
     p.setAttribute('d',data.strokes[k]);p.setAttribute('class',k===i?'cur':'done');g.appendChild(p);
   }
-  var m=data.medians[i]&&data.medians[i][0];
-  if(m){
-    var dot=document.createElementNS(SVGNS,'circle');
-    dot.setAttribute('cx',m[0]);dot.setAttribute('cy',m[1]);dot.setAttribute('r',40);dot.setAttribute('class','start');
-    g.appendChild(dot);
-  }
   svg.appendChild(g);li.appendChild(svg);
-  var n=document.createElement('span');n.className='n';n.textContent=String(i+1);li.appendChild(n);
   return li;
 }
 function renderSteps(data){
   var grid=$('stepGrid');grid.textContent='';
   data.strokes.forEach(function(_,i){grid.appendChild(stepItem(data,i));});
-  $('stepsCount').textContent=data.strokes.length+(data.strokes.length===1?' stroke':' strokes');
+  $('stepsCount').textContent=data.strokes.length+' strokes';
 }
 
 function mountWriter(mode){
   var host=$('writer');host.textContent='';writer=null;
   setPracticeUI(mode==='quiz');
-  if(typeof HanziWriter==='undefined'){
-    setStatus('The writing animation did not load. The steps below still show the order.');return;
-  }
+  if(typeof HanziWriter==='undefined')return;
   var c=seq[cur].c,token=fillToken;
   var size=Math.round($('stage').clientWidth)||280;
   var cs=getComputedStyle(document.documentElement);
@@ -552,32 +523,12 @@ function mountWriter(mode){
     showCharacter:mode==='rest',showOutline:true,
     strokeColor:col('--ink'),outlineColor:col('--grid'),highlightColor:col('--pen'),drawingColor:col('--ink'),
     drawingWidth:Math.max(6,Math.round(size/28)),
-    strokeAnimationSpeed:slow?0.5:1.1,delayBetweenStrokes:slow?800:350,
-    showHintAfterMisses:2,highlightOnComplete:true,
     charDataLoader:function(ch,onLoad,onError){loadChar(ch).then(onLoad,onError);}
   });
-  var n=curData?curData.strokes.length:0;
   if(mode==='play'){
-    setStatus('Watching stroke by stroke…');
-    writer.animateCharacter({onComplete:function(){
-      if(token===fillToken&&!quizzing)setStatus(n+(n===1?' stroke':' strokes')+'. Press Replay to watch again.');
-    }});
+    writer.animateCharacter();
   }else if(mode==='quiz'){
-    setStatus('Draw stroke 1 of '+n+' on the grid.');
-    writer.quiz({
-      onCorrectStroke:function(d){
-        if(token!==fillToken)return;
-        setStatus(d.strokesRemaining>0?'Stroke '+(d.strokeNum+1)+' is right. Now stroke '+(d.strokeNum+2)+' of '+n+'.':'Last stroke is right.');
-      },
-      onMistake:function(){if(token===fillToken)setStatus('Not quite. Check the start point and direction, then try again.');},
-      onComplete:function(d){
-        if(token!==fillToken)return;
-        setPracticeUI(false);
-        setStatus(d.totalMistakes===0?'Done with no mistakes.':'Done with '+d.totalMistakes+(d.totalMistakes===1?' mistake.':' mistakes.'));
-      }
-    });
-  }else{
-    setStatus(n?n+(n===1?' stroke':' strokes')+'. Press Replay to watch the order.':'');
+    writer.quiz();
   }
 }
 
@@ -593,19 +544,12 @@ function fillPanel(mode){
   $('pCount').textContent='Lesson '+e.lesson+' · '+(cur+1)+' of '+seq.length;
   $('pPinyin').textContent=PY[e.c]||'';
   $('pWords').innerHTML=e.words.map(function(w){
-    return '<li><span><span class="hz">'+w.h+'</span> '+w.p+' · '+w.m+'</span><button type="button" class="say" data-say="'+w.h+'" aria-label="Hear '+w.h+'">'+SPK+'</button></li>';
+    return '<li><span><span class="hz">'+w.h+'</span> '+w.p+' · '+w.m+'</span></li>';
   }).join('');
-  $('pPrev').disabled=cur===0;$('pNext').disabled=cur===seq.length-1;
-  $('stepGrid').textContent='';$('stepsCount').textContent='';
-  $('writer').textContent='';writer=null;setPracticeUI(false);
   updateKnownBtn();
-  setStatus('Loading strokes…');
   loadChar(e.c).then(function(data){
     if(token!==fillToken)return;
     curData=data;renderSteps(data);mountWriter(mode);
-  }).catch(function(){
-    if(token!==fillToken)return;
-    setStatus('Stroke data could not load. Check your connection, then press Replay to try again.');
   });
 }
 
@@ -614,97 +558,37 @@ function openPanel(i,from){
   $('overlay').hidden=false;
   document.body.style.overflow='hidden';
   fillPanel(reduceMotion?'rest':'play');
-  $('pClose').focus();
 }
 function closePanel(){
   if(cur<0)return;
-  var c=seq[cur].c;
   fillToken++;writer=null;$('writer').textContent='';
   $('overlay').hidden=true;document.body.style.overflow='';
   cur=-1;
-  if(dirty&&ui.hideLearned){renderList();}
-  dirty=false;
-  var t=document.querySelector('.tile[data-char="'+c+'"]');
-  if(!t&&opener&&document.body.contains(opener))t=opener;
-  if(!t)t=document.querySelector('#tabs button');
-  if(t)t.focus();
-}
-function go(d){
-  var n=cur+d;
-  if(n<0||n>=seq.length)return;
-  cur=n;fillPanel(reduceMotion?'rest':'play');
-}
-function replay(){
-  if(cur<0)return;
-  if(!curData){fillPanel('play');return;}
-  mountWriter('play');
-}
-function toggleKnown(){
-  var c=seq[cur].c;
-  if(known.has(c))known.delete(c);else known.add(c);
-  saveKnown();dirty=true;updateKnownBtn();updateTiles();updateProgress();
 }
 
-/* ---------- Events ---------- */
 $('list').addEventListener('click',function(e){
   var tile=e.target.closest('.tile');
   if(tile){openPanel(seqIndex[tile.dataset.char],tile);return;}
-  var row=e.target.closest('.word');
-  if(row&&ui.hideAnswers&&e.target.closest('.ans')){row.classList.toggle('rev');applyAnswerMode();}
-});
-$('list').addEventListener('keydown',function(e){
-  if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('ans')&&ui.hideAnswers){
-    e.preventDefault();
-    var row=e.target.closest('.word');row.classList.toggle('rev');applyAnswerMode();
-  }
 });
 $('tabs').addEventListener('click',function(e){
   var b=e.target.closest('button');if(!b)return;
   ui.tab=b.dataset.tab;saveUi();renderTabs();renderList();
 });
-$('tHideLearned').addEventListener('click',function(){
-  ui.hideLearned=!ui.hideLearned;saveUi();
-  $('tHideLearned').setAttribute('aria-pressed',String(ui.hideLearned));renderList();
-});
-$('tHideAnswers').addEventListener('click',function(){
-  ui.hideAnswers=!ui.hideAnswers;saveUi();
-  $('tHideAnswers').setAttribute('aria-pressed',String(ui.hideAnswers));
-  document.querySelectorAll('.word.rev').forEach(function(r){r.classList.remove('rev');});
-  applyAnswerMode();
-});
 $('pClose').addEventListener('click',closePanel);
 $('overlay').addEventListener('click',function(e){if(e.target===$('overlay'))closePanel();});
-$('pReplay').addEventListener('click',replay);
+$('pReplay').addEventListener('click',function(){mountWriter('play');});
 $('pListen').addEventListener('click',function(){if(cur>=0)speak(seq[cur].c);});
-document.addEventListener('click',function(e){
-  var b=e.target.closest('.say');
-  if(b)speak(b.dataset.say);
+$('pKnown').addEventListener('click',function(){
+  var c=seq[cur].c;
+  if(known.has(c))known.delete(c);else known.add(c);
+  saveKnown();updateKnownBtn();updateTiles();updateProgress();
 });
-$('pSlow').addEventListener('click',function(){
-  slow=!slow;$('pSlow').setAttribute('aria-pressed',String(slow));
-  if(curData&&!quizzing)mountWriter('play');
-});
-$('pPractice').addEventListener('click',function(){
-  if(cur<0||!curData)return;
-  mountWriter(quizzing?'rest':'quiz');
-});
-$('pPrev').addEventListener('click',function(){go(-1);});
-$('pNext').addEventListener('click',function(){go(1);});
-$('pKnown').addEventListener('click',toggleKnown);
-document.addEventListener('keydown',function(e){
-  if(cur<0)return;
-  if(e.key==='Escape')closePanel();
-  else if(e.key==='ArrowLeft')go(-1);
-  else if(e.key==='ArrowRight')go(1);
-});
+$('pPrev').addEventListener('click',function(){if(cur>0){cur--;fillPanel('play');}});
+$('pNext').addEventListener('click',function(){if(cur<seq.length-1){cur++;fillPanel('play');}});
 
-/* Init */
-$('tHideLearned').setAttribute('aria-pressed',String(ui.hideLearned));
-$('tHideAnswers').setAttribute('aria-pressed',String(ui.hideAnswers));
 renderTabs();
 renderList();
 updateProgress();
-prefetch();
 })();
 </script>
 </body>
