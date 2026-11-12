@@ -1,10 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hanzi Stroke Book</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
 :root{
-  /* Layout: masthead with progress, sticky lesson switcher, two-column word list on practice-grid tiles; the stroke sheet opens as a centred panel over the list. */
   --bg:#ECF0ED;
   --surface:#FAFBF9;
   --ink:#15231F;
@@ -33,7 +37,7 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font:400 1rem/1.5 var(--font-ui)}
+body{background:var(--bg);color:var(--ink);font:400 1rem/1.5 var(--font-ui);margin:0}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .page{max-width:68rem;margin:0 auto;padding-inline:max(16px,3vw);padding-block:1.25rem 4rem}
@@ -51,8 +55,8 @@ h1{margin:0;font:700 clamp(2rem,6vw,3rem)/1.05 var(--font-hanzi);text-wrap:balan
 
 /* Toolbar */
 .toolbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;flex-wrap:wrap;gap:.6rem 1.25rem;align-items:center;justify-content:space-between;background:var(--bg);padding-block:.7rem;border-bottom:1px solid var(--line)}
-.seg{display:flex;border:1px solid var(--grid);border-radius:8px;overflow:hidden;background:var(--surface);max-width:100%}
-.seg button{flex:1 1 auto;border:0;background:transparent;padding:.55rem .95rem;min-height:2.75rem;font-weight:600;border-right:1px solid var(--line);white-space:nowrap}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--grid);border-radius:8px;overflow:hidden;background:var(--surface);max-width:100%}
+.seg button{flex:1 1 auto;border:0;background:transparent;padding:.55rem .85rem;min-height:2.75rem;font-weight:600;border-right:1px solid var(--line);white-space:nowrap}
 .seg button:last-child{border-right:0}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 .seg .ct{margin-left:.35rem;font-weight:400;opacity:.8;font-variant-numeric:tabular-nums}
@@ -147,6 +151,8 @@ h3{margin:0;font-size:1rem;font-weight:700;text-transform:uppercase;letter-spaci
   .tile:active{transform:none}
 }
 </style>
+</head>
+<body>
 
 <div class="page">
   <header class="masthead">
@@ -283,8 +289,55 @@ var LESSONS=[
   {h:'对不起',p:'duìbuqǐ',m:'sorry'},
   {h:'没关系',p:'méiguānxi',m:'it doesn’t matter, never mind'},
   {h:'不用谢',p:'búyòngxiè',m:'you’re welcome'}
+ ]},
+ {id:5,words:[
+  {h:'专业',p:'zhuānyè',m:'major, specialty'},
+  {h:'中文系',p:'Zhōngwénxì',m:'Department of Chinese'},
+  {h:'现代文学',p:'xiàndài wénxué',m:'modern literature'},
+  {h:'国际关系',p:'guójì guānxì',m:'international relations'},
+  {h:'研究生',p:'yánjiūshēng',m:'graduate student'},
+  {h:'教室',p:'jiàoshì',m:'classroom'},
+  {h:'卫生间',p:'wèishēngjiān',m:'restroom, bathroom'},
+  {h:'旁边',p:'pángbiān',m:'beside, next to'},
+  {h:'东边',p:'dōngbiān',m:'east side'},
+  {h:'西边',p:'xībiān',m:'west side'},
+  {h:'有',p:'yǒu',m:'to have, there is'},
+  {h:'有空儿',p:'yǒu kòngr',m:'to have free time'},
+  {h:'时候',p:'shíhou',m:'time, moment'},
+  {h:'去',p:'qù',m:'to go'},
+  {h:'玩儿',p:'wánr',m:'to play, hang out, have fun'},
+  {h:'欢迎',p:'huānyíng',m:'welcome'},
+  {h:'对',p:'duì',m:'right, correct'}
+ ]},
+ {id:6,words:[
+  {h:'现在',p:'xiànzài',m:'now'},
+  {h:'几点',p:'jǐ diǎn',m:'what time'},
+  {h:'点',p:'diǎn',m:'o’clock'},
+  {h:'分',p:'fēn',m:'minute'},
+  {h:'半',p:'bàn',m:'half (30 minutes)'},
+  {h:'刻',p:'kè',m:'quarter of an hour (15 min)'},
+  {h:'差',p:'chà',m:'to lack, short of (time)'},
+  {h:'早上',p:'zǎoshang',m:'early morning'},
+  {h:'上午',p:'shàngwǔ',m:'morning (before noon)'},
+  {h:'中午',p:'zhōngwǔ',m:'noon'},
+  {h:'下午',p:'xiàwǔ',m:'afternoon'},
+  {h:'晚上',p:'wǎnshang',m:'evening, night'},
+  {h:'上课',p:'shàngkè',m:'to attend class, start class'},
+  {h:'下课',p:'xiàkè',m:'to finish class'},
+  {h:'开始',p:'kāishǐ',m:'to begin, start'},
+  {h:'讲座',p:'jiǎngzuò',m:'lecture'},
+  {h:'一会儿',p:'yíhuìr',m:'a little while'},
+  {h:'见',p:'jiàn',m:'to see, meet'},
+  {h:'太早了',p:'tài zǎo le',m:'too early'},
+  {h:'大部分',p:'dàbùfen',m:'most, majority'},
+  {h:'起床',p:'qǐchuáng',m:'to get up (from bed)'},
+  {h:'吃早饭',p:'chī zǎofàn',m:'to eat breakfast'},
+  {h:'听讲座',p:'tīng jiǎngzuò',m:'to attend/listen to a lecture'},
+  {h:'写作业',p:'xiě zuòyè',m:'to do homework'},
+  {h:'睡觉',p:'shuìjiào',m:'to sleep, go to bed'}
  ]}
 ];
+
 var PY={
  '你':'nǐ','好':'hǎo','老':'lǎo','师':'shī','吗':'ma','不':'bù','我':'wǒ','学':'xué','生':'shēng','她':'tā',
  '谢':'xiè','客':'kè','气':'qì','您':'nín','留':'liú','叫':'jiào','什':'shén','么':'me','名':'míng','字':'zì',
@@ -293,7 +346,15 @@ var PY={
  '那':'nà','谁':'shéi / shuí','书':'shū','屋':'wū','汉':'hàn','语':'yǔ','课':'kè','本':'běn','词':'cí','典':'diǎn',
  '就':'jiù','是':'shì','日':'rì','这':'zhè','杂':'zá','志':'zhì','音':'yīn','乐':'yuè','朋':'péng','友':'yǒu',
  '在':'zài','楼':'lóu','左':'zuǒ','右':'yòu','知':'zhī','道':'dào','教':'jiào','宿':'sù','舍':'shè','校':'xiào',
- '图':'tú','馆':'guǎn','对':'duì','起':'qǐ','没':'méi','关':'guān','系':'xì','用':'yòng'
+ '图':'tú','馆':'guǎn','对':'duì','起':'qǐ','没':'méi','关':'guān','系':'xì','用':'yòng',
+ /* Lesson 5 */
+ '专':'zhuān','业':'yè','中':'zhōng','文':'wén','现':'xiàn','代':'dài','际':'jì','研':'yán','究':'jiū','室':'shì',
+ '卫':'wèi','间':'jiān','旁':'páng','边':'biān','东':'dōng','西':'xī','有':'yǒu','空':'kòng','时':'shí','候':'hòu',
+ '去':'qù','玩':'wán','欢':'huān','迎':'yíng',
+ /* Lesson 6 */
+ '几':'jǐ','点':'diǎn','分':'fēn','半':'bàn','刻':'kè','差':'chà','早':'zǎo','上':'shàng','午':'wǔ','晚':'wǎn',
+ '开':'kāi','始':'shǐ','讲':'jiǎng','座':'zuò','会':'huì','见':'jiàn','太':'tài','了':'le','大':'dà','部':'bù',
+ '床':'chuáng','吃':'chī','饭':'fàn','听':'tīng','写':'xiě','作':'zuò','睡':'shuì','觉':'jiào'
 };
 /*END DATA*/
 
@@ -317,7 +378,7 @@ var store={
 };
 var known=new Set((store.get('hzbook.known',[])||[]).filter(function(c){return c in seqIndex;}));
 var ui=Object.assign({tab:'1',hideLearned:false,hideAnswers:false},store.get('hzbook.ui',{})||{});
-if(['1','2','3','4','all'].indexOf(ui.tab)<0)ui.tab='1';
+if(['1','2','3','4','5','6','all'].indexOf(ui.tab)<0)ui.tab='1';
 function saveUi(){store.set('hzbook.ui',ui);}
 function saveKnown(){store.set('hzbook.known',Array.from(known));}
 
@@ -353,7 +414,7 @@ function allKnown(w){return Array.from(w.h).every(function(c){return known.has(c
 function wordRow(w){
   var li=document.createElement('li');li.className='word';
   var tiles=Array.from(w.h).map(function(c){
-    return '<button type="button" class="tile" data-char="'+c+'" data-known="'+known.has(c)+'" aria-label="Stroke order for '+c+', '+PY[c]+'"><span>'+c+'</span>'+CHECK+'</button>';
+    return '<button type="button" class="tile" data-char="'+c+'" data-known="'+known.has(c)+'" aria-label="Stroke order for '+c+', '+(PY[c]||'')+'"><span>'+c+'</span>'+CHECK+'</button>';
   }).join('');
   li.innerHTML='<div class="tiles">'+tiles+'</div><div class="ans"><div class="py">'+w.p+'</div><div class="mean">'+w.m+'</div></div>'+
     '<button type="button" class="say" data-say="'+w.h+'" aria-label="Hear '+w.h+'">'+SPK+'</button>';
@@ -530,7 +591,7 @@ function fillPanel(mode){
   var e=seq[cur],token=++fillToken;
   curData=null;
   $('pCount').textContent='Lesson '+e.lesson+' · '+(cur+1)+' of '+seq.length;
-  $('pPinyin').textContent=PY[e.c];
+  $('pPinyin').textContent=PY[e.c]||'';
   $('pWords').innerHTML=e.words.map(function(w){
     return '<li><span><span class="hz">'+w.h+'</span> '+w.p+' · '+w.m+'</span><button type="button" class="say" data-say="'+w.h+'" aria-label="Hear '+w.h+'">'+SPK+'</button></li>';
   }).join('');
@@ -624,29 +685,27 @@ $('pSlow').addEventListener('click',function(){
   if(curData&&!quizzing)mountWriter('play');
 });
 $('pPractice').addEventListener('click',function(){
-  if(!curData)return;
-  if(quizzing){mountWriter('rest');}else{mountWriter('quiz');}
+  if(cur<0||!curData)return;
+  mountWriter(quizzing?'rest':'quiz');
 });
 $('pPrev').addEventListener('click',function(){go(-1);});
 $('pNext').addEventListener('click',function(){go(1);});
 $('pKnown').addEventListener('click',toggleKnown);
 document.addEventListener('keydown',function(e){
-  if($('overlay').hidden)return;
-  if(e.key==='Escape'){e.preventDefault();closePanel();return;}
-  if(e.key==='ArrowLeft'){go(-1);return;}
-  if(e.key==='ArrowRight'){go(1);return;}
-  if(e.key==='Tab'){
-    var f=Array.from($('panel').querySelectorAll('button:not(:disabled)'));
-    if(!f.length)return;
-    var first=f[0],last=f[f.length-1];
-    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
-    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
-  }
+  if(cur<0)return;
+  if(e.key==='Escape')closePanel();
+  else if(e.key==='ArrowLeft')go(-1);
+  else if(e.key==='ArrowRight')go(1);
 });
 
-/* ---------- Start ---------- */
+/* Init */
 $('tHideLearned').setAttribute('aria-pressed',String(ui.hideLearned));
 $('tHideAnswers').setAttribute('aria-pressed',String(ui.hideAnswers));
-renderTabs();renderList();updateProgress();prefetch();
+renderTabs();
+renderList();
+updateProgress();
+prefetch();
 })();
 </script>
+</body>
+</html>
